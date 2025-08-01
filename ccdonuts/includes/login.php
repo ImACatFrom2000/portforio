@@ -1,7 +1,7 @@
 <?php session_start(); ?>
 <?php
 unset($_SESSION['customer']);
-$pdo=new PDO('mysql:host=localhost;dbname=ss707001_ccdonuts;charset=utf8', 'ss707001_user', 'cca.password');
+$pdo=new PDO('mysql:host=localhost;dbname=データベース名;charset=utf8', 'ユーザー名', 'パスワード');
 $sql=$pdo->prepare('SELECT * FROM customers WHERE mail=? AND password=?');
 $sql->execute([$_REQUEST['email'], $_REQUEST['password']]);
 foreach($sql as $row){
