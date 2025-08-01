@@ -1,0 +1,65 @@
+@charset "utf-8";
+
+.loginForm {
+    padding: 40px 0;
+    border: 2px solid #F7D1CD;
+    font-size: 24px;
+}
+.loginForm dl {
+    flex-wrap: wrap;
+    margin: 0 40px;
+}
+.loginForm dd, .loginForm dt {
+    margin: 10px 0;
+}
+.loginForm dt {
+    width: 30%;
+}
+.loginForm dd {
+    width: 70%;
+}
+.loginForm input[type="email"], 
+.loginForm input[type="password"] {
+    border: 1px solid #7F5539;
+    width: 100%;
+}
+.loginForm input[type="submit"] {
+    text-align: center;
+    background-color: #7F5539;
+    color: #ffffff;
+    margin-top: 40px;
+    width: 260px;
+    height: 52px;
+}
+.register {
+    text-align: end;
+    margin-top: 20px;
+}
+
+/* メディアクエリ */
+@media screen and (max-width: 768px) {
+    .loginForm {
+        padding: 20px 0;
+        font-size: 12px;
+    }
+    .loginForm dl {
+        display: block;
+        margin: 0 20px;
+    }
+    .loginForm dd, .loginForm dt {
+        margin: 5px 0;
+        width: 100%;
+    }
+    .loginForm input[type="submit"] {
+        margin-top: 40px;
+        width: 160px;
+        height: 48px;
+    }
+    .register {
+        text-align: end;
+        margin-top: 20px;
+    }
+    .register {
+        font-size: 12px;
+    }
+}

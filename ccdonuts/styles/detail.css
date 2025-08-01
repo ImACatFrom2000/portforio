@@ -1,0 +1,81 @@
+@charset "utf-8";
+
+.detail > .flex {
+    align-items: center;
+}
+.detailImage, .detailText {
+    width: 50%;
+}
+
+.detailText {
+    margin-left: 40px;
+    font-size: 24px;
+}
+.detailText h2 {
+    font-weight: bold;
+}
+.detailText .introduction {
+    border-top: 1px solid #E6CCB2;
+    border-bottom: 1px solid #E6CCB2;
+    padding: 40px 0;
+    margin: 20px 0 40px;
+}
+.detailText .price {
+    color: #BF0000;
+    margin-bottom: 40px;
+}
+.detailText form {
+    height: 52px;
+    gap: 12px;
+}
+.detailText form input[name="count"] {
+    border: 1px solid #7F5539;
+    width: 80px;
+    text-align: end;
+}
+.detailText form input[type="submit"] {
+    width: 260px;
+    background-color: #7F5539;
+    color: #ffffff;
+    font-size: 20px;
+    text-align: center;
+}
+.detailText .addFavorite {
+    border: 1px solid #7F5539;
+    width: 52px;
+    text-align: center;
+}
+
+/* メディアクエリ */
+@media screen and (max-width:768px) {
+    .detail > .flex {
+        display: block;
+    }
+    .detailImage, .detailText {
+        width: 100%;
+    }
+    .detailText {
+        font-size: 16px;
+        margin-left: 0;
+    }
+    .detailText h2 {
+        font-weight: bold;
+        margin-top: 20px;
+    }
+    .detailText .explanation {
+        padding: 20px 0;
+    }
+    .detailText form {
+        height: 36px;
+    }
+    .detailText form input[name="count"] {
+        width: 56px;
+    }
+    .detailText form input[type="submit"] {
+        width: 160px;
+        font-size: 12px;
+    }
+    .detailText .addFavorite {
+        width: 36px;
+    }
+}

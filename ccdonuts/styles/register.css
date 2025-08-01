@@ -1,0 +1,49 @@
+@charset "utf-8";
+
+.registerForm dl {
+    flex-wrap: wrap;
+}
+.registerForm dd, .registerForm dt {
+    margin: 10px 0;
+}
+.registerForm dt {
+    width: 30%;
+}
+.registerForm dt .red {
+    color: #FF0000;
+}
+.registerForm dt .attention {
+    color: #FF0000;
+}
+.registerForm dd {
+    width: 70%;
+}
+.registerForm input[type="text"],
+.registerForm input[type="email"] {
+    border: 1px solid #7F5539;
+    width: 100%;
+}
+.postcode input:first-child {
+    width: 20%;
+}
+.postcode input:last-child {
+    width: 30%;
+}
+.registerForm input[type="submit"] {
+    text-align: center;
+    background-color: #7F5539;
+    color: #ffffff;
+    margin: 40px 0;
+    width: 260px;
+    height: 52px;
+}
+
+/* メディアクエリ */
+@media screen and (max-width:768px){
+    .registerForm dl {
+        display: block;
+    }
+    .registerForm dt, .registerForm dd {
+        width: 100%;
+    }
+}

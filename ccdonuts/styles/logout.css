@@ -1,0 +1,18 @@
+@charset "utf-8";
+
+.logout form {
+    padding: 40px 0;
+    border: 2px solid #F7D1CD;
+    font-size: 24px;
+}
+.logout p {
+    text-align: center;
+}
+.logout form  input[type="submit"] {
+    text-align: center;
+    background-color: #7F5539;
+    color: #ffffff;
+    margin-top: 40px;
+    width: 260px;
+    height: 52px;
+}

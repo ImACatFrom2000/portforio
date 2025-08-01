@@ -1,0 +1,14 @@
+@charset "utf-8";
+
+.registerConfirm dl {
+    flex-wrap: wrap;
+}
+.registerConfirm dd, .registerConfirm dt {
+    margin: 10px 0;
+}
+.registerConfirm dt {
+    width: 30%;
+}
+.registerConfirm dd {
+    width: 70%;
+}

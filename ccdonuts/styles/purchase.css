@@ -1,0 +1,40 @@
+@charset "utf-8";
+
+h3 {
+    font-size: 24px;
+    text-align: center;
+    margin: 32px 0;
+}
+dl {
+    margin: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+    border-top: 1px solid #F7D1CD;
+    border-bottom: 1px solid #F7D1CD;
+}
+dl dd, dl dt {
+    margin: 12px 0;
+}
+dl dt {
+    width: 30%;
+    font-weight: normal;
+    text-align: end;
+    padding-right: 12px;
+}
+dl dd {
+    width: 70%;
+    border-left: 2px solid #F7D1CD;
+    padding-left: 12px;
+}
+.total dt, .total dd {
+    font-weight: bold;
+}
+
+@media screen and (max-width: 768px) {
+    .purchase {
+        font-size: 12px;
+    }
+    h3 {
+        font-size: 12px;
+    }
+}

@@ -1,0 +1,284 @@
+@charset "utf-8";
+
+/* 共通 */
+body {
+    width: 100%;
+    margin: 0 auto;
+    font-family: 'Noto Sans Japanese', sans-serif;
+    font-size: 16px;
+    color: #7F5539;
+    line-height: 1.4;
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 12px;
+}
+main .container {
+    margin: 80px auto 120px;
+}
+img {
+    width: 100%;
+}
+.pageTitle {
+    margin: 100px 0;
+}
+.pageTitle h2 {
+    font-size: 32px;
+    border-bottom: 2px solid #FFD233;
+}
+.flex {
+    display: flex;
+}
+.center {
+    display: flex;
+    justify-content: center;
+}
+.message {
+    padding: 40px 0;
+    border: 2px solid #F7D1CD;
+    font-size: 24px;
+    text-align: center;
+}
+.link {
+    margin-top: 20px;
+    text-align: end;
+}
+.button {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+.button a {
+    display: block;
+    background-color: #7F5539;
+    color: #ffffff;
+    width: 260px;
+    text-align: center;
+    padding: 16px 0;
+}
+
+/* ヘッダー */
+header {
+    background-color: #EDE0D4;
+}
+
+.headerBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.headerLogo {
+    height: 78px;
+}
+.icons {
+    gap: 40px;
+}
+.headerLogo {
+    height: 78px;
+}
+.icons {
+    gap: 40px;
+}
+.searchBar {
+    background-color: #B392AC;
+    width: 100%;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+.search {
+    text-align: end;
+    height: 40px;
+    margin-right: 13px;
+}
+.submitBtn {
+    background-color: #D9D9D9;
+    width: 40px;
+    height: 100%;
+    border: 2px solid #7F5539;
+}
+.submitBtn img {
+    margin-right: 4px;
+}
+.keywordBox {
+    background-color: white;
+    border: 1px #7F5539 solid;
+    height: 100%;
+    width: 360px;
+    text-align: start;
+}
+
+/* フッター */
+footer {
+    background-color: #EDE0D4;
+    padding-top: 20px;
+}
+.footerNav ul {
+    display: flex;
+}
+.footerNav ul li {
+    border-left: 1px #B392AC solid;
+    width: 170px;
+    padding-left: 12px;
+}
+
+.footerLogo {
+    text-align: center;
+    margin-top: 64px;
+}
+.footerLogo img {
+    width: 144px;
+    height: 128px;
+}
+
+.sns {
+    display: flex;
+    justify-content: center;
+    margin-top: 72px;
+    margin-bottom: 40px;
+    gap: 40px;
+}
+.copywrite {
+    padding: 20px 0;
+    border-top: 1px solid #7F5539;
+    text-align: center;
+}
+/* ウェルカムメッセージ・パンくずメニュー */
+.welcome, .pankuzu{
+    padding: 12px 0;
+    border-top: 1px solid #7F5539;
+    border-bottom: 1px solid #7F5539;
+}
+
+/* ドロワー */
+.drawer .drawerBtn {
+    display: none;
+}
+.drawerIcon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.drawer span {
+    display: block;
+    content: "";
+    height: 2px;
+    background-color: #7F5539;
+}
+.menu {
+    max-height: 0;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(127, 85, 57, 0.75);
+    width: 100%;
+    color: #ffffff;
+    text-align: center;
+}
+.menu .menuLogo {
+    width: 78px;
+    margin-top: 20px;
+}
+.menu .menuClose {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    height: 54px;
+    width: 54px;
+}
+.menu ul li {
+    border-bottom: 1px solid #ffffff;
+    padding: 12px 0;
+}
+.menu ul {
+    margin-bottom: 40px;
+}
+.drawer .drawerBtn:checked ~ .menu {
+  max-height: 338px;
+  transition: max-height .6s;
+}
+
+/* メディアクエリ */
+@media screen and (max-width:768px) {
+    .container {
+        max-width: 100%;
+    }
+    main .container {
+        margin: 20px auto 80px;
+    }
+    .pageTitle {
+        margin: 32px 0;
+    }
+    .pageTitle h2 {
+        font-size: 20px;
+    }
+    .message {
+        padding: 20px 0;
+        font-size: 12px;
+    }
+    .button a {
+        width: 148px;
+        padding: 12px 0;
+        font-size: 12px;
+    }
+    .icons {
+        gap: 12px;
+    }
+    .searchBar {
+        background-color: #EDE0D4;
+    }
+    .search {
+        margin-right: 0;
+    }
+    .submitBtn {
+        width: 34px;
+        height: 37px;
+    }
+    .keywordBox {
+        height: 37px;
+        width: 300px;
+    }
+    .drawerIcon {
+        width: 25px;
+        height: 25px;
+    }
+    .headerLogo {
+        height: 62px;
+    }
+    footer {
+        font-size: 12px;
+    }
+    .footerNav ul {
+        display: block;
+    }
+    .footerNav ul li {
+        margin: 12px 0;
+    }
+    .footerIcons {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+    .footerLogo {
+        text-align: end;
+        margin-top: 20px;
+        margin-bottom: 8px;
+    }
+    .footerLogo img {
+        width: 72px;
+        height: 64px;
+    }
+    .sns {
+        justify-content: start;
+        gap: 20px;
+        margin-top: 32px;
+        margin-bottom: 0;
+    }
+    .welcome, .pankuzu{
+        font-size: 12px;
+    }
+}

@@ -1,0 +1,59 @@
+@charset "utf-8";
+
+h3 {
+    text-align: center;
+    font-size: 24px;
+    margin-top: 80px;
+}
+.list {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    margin-bottom: 120px;
+}
+.list li {
+    margin-top: 120px;
+    width: 320px;
+}
+.list li a {
+    display: block;
+}
+.list li p {
+    margin-top: 20px;
+}
+.list li .productName {
+    font-size: 24px;
+}
+.list li .price {
+    font-size: 24px;
+    color: #BF0000;
+}
+.list li input[type="submit"] {
+    width: 260px;
+    height: 52px;
+    background-color: #7F5539;
+    color: #ffffff;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* メディアクエリ */
+@media screen and (max-width:768px) {
+    h3 {
+        font-size: 16px;
+        margin-top: 20px;
+    }
+    .list li {
+        margin-top: 80px;
+        width: 157px;
+    }
+    .list li .productName,
+    .list li .price {
+        font-size: 16px;
+    }
+    .list li button {
+        font-size: 12px;
+        width: 148px;
+        height: 36px;
+    }
+}

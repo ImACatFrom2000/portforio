@@ -1,0 +1,62 @@
+@charset "utf-8";
+
+dl {
+    margin: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+dl dd, dl dt {
+    margin: 12px 0;
+}
+dl dt {
+    width: 30%;
+    font-weight: normal;
+    text-align: end;
+    padding-right: 12px;
+}
+.red {
+    color: #FF0000;
+}
+dl dd {
+    width: 70%;
+    padding-left: 12px;
+}
+.creditForm input[type="text"] {
+    border: 1px solid #7F5539;
+    width: 100%;
+    padding: 0 8px;
+}
+.creditForm label {
+    margin-right: 32px;
+}
+.creditForm input[name="expiry_month"] {
+    width: 32px;
+}
+.creditForm input[name="expiry_year"] {
+    width: 56px;
+}
+.creditForm input[type="submit"] {
+    text-align: center;
+    background-color: #7F5539;
+    color: #ffffff;
+    margin: 40px 0;
+    width: 260px;
+    height: 52px;
+}
+
+@media screen and (max-width:768px) {
+    dl {
+        display: block;
+    }
+    dl dt, dl dd {
+        width: 100%;
+    }
+    dl dt {
+        text-align: start;
+    }
+    .creditForm input[type="submit"] {
+        margin: 20px 0;
+        width: 160px;
+        height: 48px;
+    }
+}
