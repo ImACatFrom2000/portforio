@@ -38,7 +38,7 @@
             if ($email == $emailRe && $password == $passwordRe) {                               //メールアドレスとパスワードの一致
                 if(preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $email)) {  //メールアドレスのパターンマッチング
                     if(preg_match('/^(?=.*[a-z])(?=.*[0-9])[a-zA-Z0-9]{8,20}$/', $password)){   //パスワードのパターンマッチング
-                        $pdo=new PDO('mysql:host=localhost;dbname=ss707001_ccdonuts;charset=utf8', 'ss707001_user', 'cca.password');
+                        $pdo=new PDO('mysql:host=localhost;dbname=データベース名;charset=utf8', 'ユーザー名', 'パスワード');
                         $sql=$pdo->prepare('SELECT * FROM customers WHERE mail=?');
                         $sql->execute([$email]);
                         $result = $sql->fetch();
