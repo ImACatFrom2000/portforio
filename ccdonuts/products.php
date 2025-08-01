@@ -15,7 +15,7 @@
             <h2>商品一覧</h2>
         </div>
         <?php
-        $pdo=new PDO('mysql:host=localhost;dbname=ss707001_ccdonuts;charset=utf8', 'ss707001_user', 'cca.password');
+        $pdo=new PDO('mysql:host=localhost;dbname=データベース名;charset=utf8', 'ユーザー名', 'パスワード');
 
         echo '<section class="mainMenu">';
         echo '<h3>メインメニュー</h3>';
