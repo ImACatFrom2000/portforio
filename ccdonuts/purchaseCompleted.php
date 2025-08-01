@@ -16,7 +16,7 @@
         </div>
 
         <?php
-        $pdo=new PDO('mysql:host=localhost;dbname=ss707001_ccdonuts;charset=utf8', 'ss707001_user', 'cca.password');
+        $pdo=new PDO('mysql:host=localhost;dbname=データベース名;charset=utf8', 'ユーザー名', 'パスワード');
         //purchaseテーブルに購入番号と顧客番号を入れる
         $sql=$pdo->prepare('INSERT INTO purchase VALUES(null,?)');
         $sql->execute([$_SESSION['customer']['id']]);
