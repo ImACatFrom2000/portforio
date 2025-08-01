@@ -7,7 +7,7 @@
 <nav class="pankuzu"><p class="container">
     <a href="index.php">TOP</a> > <a href="products.php">商品一覧</a> >
     <?php
-    // $pdo=new PDO('mysql:host=localhost;dbname=データベース名;charset=utf8', 'ユーザー名', 'パスワード');
+    $pdo=new PDO('mysql:host=localhost;dbname=データベース名;charset=utf8', 'ユーザー名', 'パスワード');
     $sql=$pdo->prepare('SELECT * FROM products WHERE id=?');
     $sql->execute([$_REQUEST['id']]);
     foreach($sql as $row) {
