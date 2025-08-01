@@ -15,7 +15,7 @@
             <h2>カード情報登録完了</h2>
         </div>
         <?php
-        // データベースに接続。$pdoにPDOクラスのインスタンスを代入
+        // $pdo=new PDO('mysql:host=localhost;dbname=データベース名;charset=utf8', 'ユーザー名', 'パスワード');
         $sql=$pdo->prepare('INSERT INTO credit VALUES(?,?,?,?,?,?,?)');
         $sql->execute([
             $_SESSION['customer']['id'],
