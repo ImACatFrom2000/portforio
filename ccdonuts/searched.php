@@ -16,7 +16,7 @@
         </div>
         <ul class="list">
         <?php
-        $pdo=new PDO('mysql:host=localhost;dbname=ss707001_ccdonuts;charset=utf8', 'ss707001_user', 'cca.password');
+        $pdo=new PDO('mysql:host=localhost;dbname=データベース名;charset=utf8', 'ユーザー名', 'パスワード');
         $sql=$pdo->prepare('SELECT * FROM products where name like ?');
         $sql->execute(['%'.$_REQUEST['keyword'].'%']);
         foreach ($sql as $row) {
