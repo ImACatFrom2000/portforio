@@ -26,7 +26,7 @@
         <ol>
             <?php
             $rank=0;
-            $pdo=new PDO('mysql:host=localhost;dbname=ss707001_ccdonuts;charset=utf8', 'ss707001_user', 'cca.password');
+            $pdo=new PDO('mysql:host=localhost;dbname=データベース名;charset=utf8', 'ユーザー名', 'パスワード');
             foreach($pdo->query('SELECT *FROM products ORDER BY popularity DESC LIMIT 6') as $product) {
                 $rank++;
                 echo '<li><a href="detail.php?id=', $product['id'], '">';
