@@ -11,7 +11,7 @@
 
 <?php 
 
-$pdo=new PDO('mysql:host=localhost;dbname=ss707001_ccdonuts;charset=utf8', 'ss707001_user', 'cca.password');
+$pdo=new PDO('mysql:host=localhost;dbname=データベース名;charset=utf8', 'ユーザー名', 'パスワード');
 $sql=$pdo->prepare('INSERT INTO customers VALUES(null, ?,?,?,?,?,?,?)');
 $sql->execute([
     $_SESSION['confirm']['name'], $_SESSION['confirm']['nameKana'], $_SESSION['confirm']['postcode3'],
