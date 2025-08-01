@@ -16,7 +16,7 @@
         </div>
         <?php
         if(isset($_SESSION['customer'])) {
-            $pdo=new PDO('mysql:host=localhost;dbname=ss707001_ccdonuts;charset=utf8', 'ss707001_user', 'cca.password');
+            $pdo=new PDO('mysql:host=localhost;dbname=データベース名;charset=utf8', 'ユーザー名', 'パスワード');
             echo '<section class="purchaseProducts">';
             echo '<h3>ご購入商品</h3>';
             echo '<ul>';
