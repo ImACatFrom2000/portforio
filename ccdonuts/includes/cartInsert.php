@@ -13,8 +13,7 @@ if(isset($_SESSION['customer'])){
     $_SESSION['product'][$id]=[
         'name'=>$_REQUEST['name'],
         'price'=>$_REQUEST['price'],
-        'count'=>$count + $_REQUEST['count'],
-        'popularity'=>$_REQUEST['popularity']
+        'count'=>$count + $_REQUEST['count']
     ];
     header('Location:../cart.php');
     exit();
