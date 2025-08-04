@@ -15,7 +15,7 @@
             <h2>商品一覧</h2>
         </div>
         <?php
-        $pdo=new PDO('mysql:host=localhost;dbname=データベース名;charset=utf8', 'ユーザー名', 'パスワード');
+        $pdo=new PDO('mysql:host=localhost;dbname=ss707001_ccdonuts;charset=utf8', 'ss707001_user', 'cca.password');
 
         echo '<section class="mainMenu">';
         echo '<h3>メインメニュー</h3>';
@@ -51,7 +51,6 @@
             echo '<input type="hidden" name="name" value="', $row['name'], '">';
             echo '<input type="hidden" name="price" value="', $row['price'], '">';
             echo '<input type="hidden" name="count" value="1">';
-            echo '<input type="hidden" name="popularity", value="', $row['popularity'], '">'; 
             echo '<input type="submit" value="カートに入れる">';
             echo '</form>';
             echo '</a></li>';

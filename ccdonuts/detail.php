@@ -7,7 +7,7 @@
 <nav class="pankuzu"><p class="container">
     <a href="index.php">TOP</a> > <a href="products.php">商品一覧</a> >
     <?php
-    $pdo=new PDO('mysql:host=localhost;dbname=データベース名;charset=utf8', 'ユーザー名', 'パスワード');
+    $pdo=new PDO('mysql:host=localhost;dbname=ss707001_ccdonuts;charset=utf8', 'ss707001_user', 'cca.password');
     $sql=$pdo->prepare('SELECT * FROM products WHERE id=?');
     $sql->execute([$_REQUEST['id']]);
     foreach($sql as $row) {
@@ -39,8 +39,6 @@
             echo '<input type="hidden" name="id" value="', $row['id'], '">';
             echo '<input type="hidden" name="name" value="', $row['name'], '">';
             echo '<input type="hidden" name="price" value="', $row['price'], '">';
-            echo '<input type="hidden" name="popularity", value="', $row['popularity'], '">'; 
-            
             echo '<input type="submit" value="カートに入れる">';
             echo '<a class="addFavorite"><img src="images/detail/favorite.svg"></a>';
             echo '</form>';
