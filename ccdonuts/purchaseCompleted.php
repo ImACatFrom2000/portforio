@@ -18,12 +18,17 @@
         <?php
         $pdo=new PDO('mysql:host=localhost;dbname=データベース名;charset=utf8', 'ユーザー名', 'パスワード');
         //purchaseテーブルに購入番号と顧客番号を入れる
-        $sql=$pdo->prepare('INSERT INTO purchase VALUES(null,?)');
-        $sql->execute([$_SESSION['customer']['id']]);
-        //purchase_detailテーブルに顧客番号と商品番号と個数を入れる
+        $sql=$pdo->prepare('INSERT INTO purchase VALUES(null,?,?)');
+        date_default_timezone_set('Japan');
+        $sql->execute([$_SESSION['customer']['id'], date('Y/m/d H:i:s')]);
+        //購入番号を取得する
+        foreach($pdo->query('SELECT * FROM purchase ORDER BY id DESC LIMIT 1') as $row) {
+            $purchase_id = $row['id'];
+        }
         foreach($_SESSION['product'] as $id=>$product) {
+            //purchase_detailに購入番号、商品番号、個数を入れる
             $sql=$pdo->prepare('INSERT INTO purchase_detail VALUES(?,?,?)');
-            $sql->execute([$_SESSION['customer']['id'], $id, $product['count']]);
+            $sql->execute([$purchase_id, $id, $product['count']]);
             //productテーブルのpopularityを1点につき+5する
             $sql=$pdo->prepare('UPDATE products SET popularity=? WHERE id=?');
             $sql->execute([$product['popularity'] + 5*$product['count'], $id]);
@@ -41,3 +46,4 @@
 </main>
 
 <?php require 'includes/footer.php'?>
+
