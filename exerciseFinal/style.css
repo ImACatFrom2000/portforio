@@ -56,7 +56,17 @@ section .text .toDetail {
     background-position: -99px top, 885px top;
     position: relative;
 }
-.mv p {
+.mvFade {
+    width: 100%;
+    height: 634px;
+    opacity: 0.3;
+    background-image: url(images/mv2.png), url(images/mv2.png);
+    background-repeat: no-repeat, no-repeat;
+    background-position: -99px top, 885px top;
+    position: absolute;
+    top: 135px;
+}
+.mv .copy1, .mv .copy2 {
     background-color: #fff;
     line-height: 1.0;
     padding: 30px 20px;
@@ -72,6 +82,13 @@ section .text .toDetail {
 .mv .copy2 {
     left: 720px;
     bottom: 0;
+}
+.mv .copy3 {
+    position: absolute;
+    color: #fff;
+    font-size: 36px;
+    left: 40px;
+    bottom: 50px;
 }
 
 /* ニュース */
