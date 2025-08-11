@@ -7,11 +7,14 @@
 /* イントロ */
 .intro {
     margin: 100px 0 200px;
+    padding-right: 160px;
 }
 .intro ul {
     display: grid;
     grid-template-columns: 100px 100px 100px 100px 100px 100px 100px 100px;
     grid-template-rows: 100px 100px 100px 100px 100px 100px 100px 100px 100px 100px;
+    justify-content: end;
+    margin-bottom: 100px;
 }
 .intro .item1 {
     grid-column: 1/4;
@@ -52,4 +55,79 @@
 .intro .item10 {
     grid-column: 5/9;
     grid-row: 8/11;
+}
+
+/* おすすめ料理 */
+.pickup {
+    position: relative;
+    margin-bottom: 200px;
+}
+.pickup h2 {
+    background-color: #fff;
+    width: 320px;
+    text-align: center;
+    font-size: 32px;
+    position: absolute;
+    z-index: 50;
+    top: -36px;
+    left: calc(50% - 160px);
+}
+.pickup h2 span {
+    display: block;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+.pickup ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border: 1px solid #303030;
+    padding-top: 160px;
+    padding-right: 77px;
+    padding-bottom: 14px;
+    padding-left: 38px;
+}
+.pickup ul li {
+    margin-bottom: 70px;
+    flex-basis: 348px;
+}
+.pickup ul li h3 {
+    margin: 35px 0 10px;
+}
+
+/* 人気店 */
+.restaurant {
+
+    position: relative;
+}
+.restaurant h2 {
+    text-align: center;
+    font-size: 32px;
+    position: absolute;
+    top: -36px;
+    left: calc(50% - 100px);
+    z-index: 50;
+}
+.restaurant h2 span {
+    display: block;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+.restaurant > div {
+    height: 516px;
+    background-image: url(images/restaurant.png);
+    padding-top: 50px;
+}
+.restaurant table {
+    margin: 0 auto;
+}
+.restaurant table th, .restaurant table td {
+    padding: 15px 0;
+    font-weight: normal;
+}
+.restaurant table thead {
+    border-bottom: 1px solid #000;
+}
+.restaurant table th:first-child {
+    width: 450px;
 }
