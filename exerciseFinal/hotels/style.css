@@ -1,0 +1,99 @@
+@charset "utf-8";
+
+.pageHeader {
+    background-image: url(images/hero.png);
+}
+
+/* イントロ */
+.intro {
+    position: relative;
+    height: 726px;
+    margin-top: 100px;
+}
+.intro img {
+    position: absolute;
+    right: 0;
+}
+.intro .text {
+    position: absolute;
+    left: 58px;
+    top: 90px;
+}
+
+/* イントロ2 */
+.intro2 {
+    height: 1720px;
+    width: 100%;
+    position: relative;
+}
+.intro2 figure {
+    position: absolute;
+}
+.intro2 figcaption {
+    font-family: 'Shippori Mincho';
+    font-size: 90px;
+    color: #E0E0E0;
+    transform: rotate(90deg);
+    transform-origin: left top;
+    line-height: 1.0;
+    position: absolute;
+}
+.intro2 .bath {
+    top: 0;
+    right: 0;
+}
+/* .intro2 .bath figcaption {
+    top: 0;
+    right: 0;
+} */
+.intro2 .room {
+    top: 326px;
+    left: 0;
+}
+.intro2 .view {
+    bottom: 0;
+}
+.intro2 .text {
+    position: absolute;
+    right: 84px;
+    top: 784px;
+    width: 440px;
+    border-left: 1px solid;
+    padding-left: 20px;
+}
+.intro2 .text .lead {
+    margin-bottom: 50px;
+}
+.intro2 .text .lead b{
+    font-size: 32px;
+    font-weight: normal;
+}
+
+/* おすすめ宿 */
+.pickup h2{
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 50px;
+}
+.pickup h2 span {
+    display: block;
+    font-size: 14px;
+}
+.pickup ul li {
+    display: flex;
+    padding: 50px 153px 50px 174px;
+    gap: 78px;
+}
+.pickup ul li:nth-child(1) { background-color: #F4F4F4;}
+.pickup ul li:nth-child(2) { background-color: #ECECEC;}
+.pickup ul li:nth-child(3) { background-color: #E7E7E7;}
+
+.pickup ul li .text h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+.pickup ul li .text .intro {
+    padding-bottom: 17px;
+    border-bottom: 1px dotted #000;
+    margin-bottom: 23px;
+}
