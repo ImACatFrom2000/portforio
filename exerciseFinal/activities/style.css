@@ -4,24 +4,24 @@
     background-image: url(images/hero.png);
 }
 
+.header nav .menu li:nth-child(2),
+.header nav .menu li:nth-child(2) a:hover {
+    color: #FB6868;
+}
+.header nav .menu li:nth-child(2) a svg,
+.header nav .menu li:nth-child(2) a:hover svg {
+    stroke: #FB6868;
+}
+.header nav .menu li:nth-child(2) a svg path,
+.header nav .menu li:nth-child(2) a:hover svg path {
+    fill: #FB6868;
+}
+
 /* イントロ */
 .intro {
     margin: 100px auto;
     display: flex;
     justify-content: space-between;
-}
-.intro .text {
-    width: 440px;
-    align-self: flex-end;
-    border-left: 1px solid black;
-    padding-left: 20px;
-}
-.intro .text .lead {
-    margin-bottom: 50px;
-}
-.intro .text .lead b {
-    font-size: 32px;
-    font-weight: normal;
 }
 
 /* コンテンツ */
