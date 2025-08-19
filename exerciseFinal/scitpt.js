@@ -44,12 +44,32 @@ function fadeIn(){      //500ms
     }, fadeTime);
 }
 
-// ホテルセクションのスライダー
+let foodImg = 1;
 $(document).ready(function(){
     setInterval(() => {
-        let overSlide = $('.hotels ul li:first-child img').attr('id');
-        console.log(`overSlide=${overSlide}`);
-        $('.hotels ul li:first-child').remove();
-        $('.hotels ul').append(`<li><img src="images/${overSlide}.png" id="${overSlide}"></li>`);
-    }, 5000);
+        foodImg++;
+        if(foodImg>4){
+            foodImg = 1;
+        }
+        $('.foods .image > img').attr('src', `images/food${foodImg}.png`);
+    }, 3000);
 })
+
+// activitiesセクション　可視領域に入ったらフェードイン
+// geminiから。class名、調整値を変更
+$(function() {
+    $(window).on('scroll', function() {
+      $('.activities .image li').each(function() {
+        // 要素の上部がウィンドウの下部に入ったかを判定
+        var elemPos = $(this).offset().top;     //要素のページ最上部からの位置
+        var scrollPos = $(window).scrollTop();  //どれだけスクロールしたか
+        var windowHeight = $(window).height();  //ビューポートの高さ
+  
+        if (scrollPos > elemPos - windowHeight + 200) {
+          $(this).addClass('is-visible');
+        }
+      });
+    });
+    // ページロード時にも一度実行して、すでに表示領域内の要素があれば表示させる
+  $(window).trigger('scroll');
+  });

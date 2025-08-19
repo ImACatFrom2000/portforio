@@ -2,8 +2,21 @@
 
 main {
     padding-top: 135px;
+    overflow: hidden;
 }
 
+.header nav .menu li:nth-child(1),
+.header nav .menu li:nth-child(1) a:hover {
+    color: #FB6868;
+}
+.header nav .menu li:nth-child(1) a svg,
+.header nav .menu li:nth-child(1) a:hover svg {
+    stroke: #FB6868;
+}
+.header nav .menu li:nth-child(1) a svg path,
+.header nav .menu li:nth-child(1) a:hover svg path {
+    fill: #FB6868;
+}
 /* セクション共通 */
 section {
     margin: 100px 0;
@@ -40,11 +53,28 @@ section .sectionTitle {
     letter-spacing: 0.20em;
     position: absolute;
 }
-section .text .toDetail {
+section .text .toDetail a {
     display: flex;
     align-items: center;
     margin-top: 30px;
     gap: 14px;
+    width: 130px;
+}
+section .text .toDetail a svg {
+    transform: rotate(90deg);
+    stroke: #303030;
+}
+section .text .toDetail a svg path {
+    fill: #303030;
+}
+section .text .toDetail a:hover {
+    color: #FB6868;
+}
+section .text .toDetail a:hover svg {
+    stroke: #FB6868;
+}
+section .text .toDetail a:hover svg path {
+    fill: #FB6868;
 }
 
 /* メインビジュアル・コピー */
@@ -143,6 +173,13 @@ section .text .toDetail {
 }
 .activities .image li {
     position: absolute;
+    opacity: 0;
+    transform: translateX(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.activities .image li.is-visible{
+    opacity: 1.0;
+    transform: translateX(0px);
 }
 .activities .image .image1 {
     right: 0;
@@ -189,6 +226,8 @@ section .text .toDetail {
 }
 .foods .image {
     width: 865px;
+    position: absolute;
+    left: 58px;
 }
 .foods .image ul {
     display: flex;
@@ -229,7 +268,7 @@ section .text .toDetail {
     gap: 80px;
     width: 100%;
     animation-name: hotelSlider;
-    animation-duration: 5001ms;
+    animation-duration: 15000ms;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
 }
@@ -244,10 +283,8 @@ section .text .toDetail {
 }
 @keyframes hotelSlider {
     0% { transform: translateX(0) }
-    100% { transform: translateX(-868px); }
+    100% { transform: translateX(-2604px); }
 }
-
-
 
 /* サブコピー・スライダー */
 .subcopy {
@@ -257,13 +294,21 @@ section .text .toDetail {
     display: flex;
     flex-wrap: nowrap;
     height: 293px;
-    overflow: hidden;
     gap: 77px;
     margin: 100px 0;
+    animation-name: gallarySlider;
+    animation-duration: 15000ms;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
 }
 .slider li img {
+    width: 500px;
     height: 293px;
     object-fit: cover;
+}
+@keyframes gallarySlider {
+    0% { transform: translateX(0) }
+    100% { transform: translateX(-1731px); }
 }
 
 /* GET IN TOUCH */
@@ -344,4 +389,10 @@ section .text .toDetail {
     width: 290px;
     height: 88px;
     border-radius: 44px;
+}
+#contact form .submit input:hover{
+    background-color: #fff;
+    color: #FB6868;
+    border: 1px solid #FB6868;
+    transition: all 0.1s linear;
 }
