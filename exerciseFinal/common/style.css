@@ -1,16 +1,18 @@
 @charset "utf-8";
-
+html {
+    scroll-behavior: smooth;
+}
 body {
     width: 100%;
     margin: 0 auto;
     font-family: sans-serif;
     font-size: 14px;
-    color: black;
+    color: #505050;
     line-height: 1.7;
 }
 .container {
     margin: 0 auto;
-    padding: 0 40px;
+    padding: 0 60px;
 }
 .oswald {
     font-family: 'Oswald';
@@ -22,7 +24,7 @@ body {
 .header {
     width: 100%;
     padding-top: 30px;
-    padding-bottom: 55px;
+    /* padding-bottom: 55px; */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -61,7 +63,8 @@ body {
 }
 .header nav .menu li {
     padding: 30px 0;
-    border-bottom: 1px solid black;
+    color: #303030;
+    border-bottom: 1px solid #303030;
 }
 .header nav .menu li a {
     display: flex;
@@ -71,6 +74,22 @@ body {
 .header nav .menu li a img {
     height: 30px;
     transform: rotate(90deg);
+}
+.header nav .menu li a svg {
+    transform: rotate(90deg);
+    stroke: #303030;
+}
+.header nav .menu li a svg path {
+    fill: #303030;
+}
+.header nav .menu li a:hover{
+    color: #A1A1A1;
+}
+.header nav .menu li a:hover svg {
+    stroke: #A1A1A1;
+}
+.header nav .menu li a:hover svg path {
+    fill: #A1A1A1;
 }
 .header nav .sns {
     display: flex;
@@ -86,6 +105,48 @@ body {
     height: 40px;
     width: 40px;
     border-radius: 50%;
+}
+
+/* ページヘッダー */
+.pageHeader {
+    height: 281px;
+    position: relative;
+    /* background-imageは各ページCSSへ */
+}
+.pageHeader h1 {
+    font-family: 'Shippori Mincho';
+    color: #505050;
+    font-size: 72px;
+    position: absolute;
+    bottom: -72px;
+    right: 0;
+    line-height: 1.4;
+}
+.pageHeader h1 span {
+    font-size: 18px;
+    display: block;
+    text-align: end;
+}
+
+/* パンくず */
+.pankuzu {
+    margin: 10px 0;
+}
+
+/* イントロ */
+.intro .text {
+    width: 440px;
+    align-self: flex-end;
+    border-left: 1px solid black;
+    padding-left: 20px;
+}
+.intro .text .lead {
+    margin-bottom: 50px;
+}
+.intro .text .lead b {
+    font-size: 32px;
+    font-weight: normal;
+    font-family: 'Shippori Mincho';
 }
 
 /* フッター */
@@ -132,7 +193,7 @@ footer {
 .footer .others .attension {
     color: #E0E0E0;
 }
-.footer .others > img {
+.footer .others > a img {
     position: absolute;
     right: 0;
     bottom: 0;
