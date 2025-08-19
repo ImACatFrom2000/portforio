@@ -4,6 +4,19 @@
     background-image: url(images/hero.png);
 }
 
+.header nav .menu li:nth-child(4),
+.header nav .menu li:nth-child(4) a:hover {
+    color: #FB6868;
+}
+.header nav .menu li:nth-child(4) a svg,
+.header nav .menu li:nth-child(4) a:hover svg {
+    stroke: #FB6868;
+}
+.header nav .menu li:nth-child(4) a svg path,
+.header nav .menu li:nth-child(4) a:hover svg path {
+    fill: #FB6868;
+}
+
 /* イントロ */
 .intro {
     position: relative;
