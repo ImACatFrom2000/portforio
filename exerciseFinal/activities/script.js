@@ -9,8 +9,8 @@ $(document).ready(function(){
     $('.contents li').on('click', function(){
         if(!$(this).hasClass('selected')) {
             $('.contents nav li').removeClass('selected');
-            const tab = $(this).attr('class');
             $(this).addClass('selected');
+            const tab = $(this).attr('id');
             switch (tab) {
                 case 'diving':
                     img = "ダイビングの画像";
