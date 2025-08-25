@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>FruitsFall</title>
+        <style>
+            *{
+                padding: 0;
+                margin: 0;
+            }
+            canvas {
+                background: #eee;
+                display: block;
+                margin: 0 auto;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="myCanvas" width="1000" height="500"></canvas>
+        <script>
+            'use strict';
+            const canvas = document.getElementById("myCanvas");
+            const ctx = canvas.getContext("2d");
+
+            // プレイヤー変数
+            const playerR = 20;             //プレイヤーの半径
+            let playerX = canvas.width / 2;
+            const playerY = 450 - playerR;
+
+            // 移動幅
+            const moveX = 5;
+            
+            // キー入力の変数
+            let rightPressed = false;
+            let leftPressed = false;
+
+            // フルーツの変数
+            let fruitsCount = 5;
+            const fruitsR = 20;
+            const fruitsPadding = (canvas.width - fruitsR*2*fruitsCount) / fruitsCount
+            const fallTime = 2000;
+            const fallSpeed = 450*10/fallTime;
+            // 450pxを2000msかけて落下。10msごとに再描写
+
+            const fruits = [];
+            for(let n=0; n<fruitsCount; n++) {
+                fruits[n] = {fall: 0, x:fruitsPadding/2 + n*(fruitsR*2 + fruitsPadding) + fruitsR, y:fruitsR};
+            }
+
+            const drawInterval = setInterval(draw, 10);
+            const fallInterval = setInterval(fall, 4000);
+
+            function fall() {       //4000msごと(=4秒に1回実行)
+                const fallnum = Math.floor(Math.random()*fruitsCount);
+                console.log(fruits[fallnum]);
+                fruits[fallnum].fall = 1;
+                let count = 0;
+                const intervalId = setInterval(() => {
+                    fruits[fallnum].y = fruitsR + fallSpeed * count;
+                    count++;
+                    if((Math.abs(playerX-fruits[fallnum].x) <= fruitsR+playerR) && fruits[fallnum].y >= playerY - playerR) {
+                        clearInterval(intervalId);
+                        fruits[fallnum].fall = 0;
+                        console.log(`fruits[${fallnum}] キャッチ`);
+                        fruits[fallnum].y = fruitsR;
+                        }
+                    if(count>=200) {
+                        clearInterval(intervalId);
+                        console.log(fruits[fallnum]);
+                        fruits[fallnum].fall = 0;
+                        fruits[fallnum].y = fruitsR;
+                        console.log(`fruits[${fallnum}] 失敗`);
+                    }
+                }, 10);
+
+            }
+            function touchDetection() {
+                for(let i=0; i<fruitsCount; i++) {
+                    if(fruits[i].fall === 1) {
+                        //フルーツとプレイヤーが接触していたら
+                        // if((Math.abs(playerX-fruits[i].x) <= fruitsR+playerR) && fruits[i].y >= playerY - playerR) {
+                        //     fruits[i].fall === 0;
+                        //     console.log(`fruits[${i}] キャッチ`);
+                        // }
+                        
+                    }
+                }
+            }
+            function backgroundDraw() {
+                ctx.beginPath();
+                ctx.rect(0, 450, 1000, 50);
+                ctx.fillStyle = "#a66049";
+                ctx.fill();
+                ctx.closePath();
+            }
+            function playerDraw() {
+                ctx.beginPath();
+                ctx.arc(playerX, playerY, playerR, 0, Math.PI * 2);
+                ctx.fillStyle="#ffa8be";
+                ctx.fill();
+                ctx.closePath();
+            }
+            function fruitsDraw() {
+                for(let n=0; n<fruitsCount; n++) {
+                    ctx.beginPath();
+                    ctx.arc(fruits[n].x, fruits[n].y, fruitsR, 0, Math.PI * 2);
+                    ctx.fillStyle="#ff0000"
+                    ctx.fill();
+                    ctx.closePath();
+                }
+            }
+            function draw() {       //10msごと(=1秒間に100回繰り返す)
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                backgroundDraw();
+                playerDraw();
+                fruitsDraw();
+                touchDetection();
+
+                if(rightPressed) {
+                    playerX = Math.min(playerX + moveX, canvas.width - playerR);
+                } else if(leftPressed) {
+                    playerX = Math.max(playerX - moveX, playerR)
+                }
+            }
+            
+
+            document.addEventListener("keydown", keyDownHandler, false);
+            document.addEventListener("keyup", keyUpHandler, false);
+
+            function keyDownHandler(e) {
+                if(e.key === "Right" || e.key === "ArrowRight") {
+                    rightPressed = true;
+                } else if (e.key === "Left" || e.key === "ArrowLeft") {
+                    leftPressed = true;
+                }
+            }
+            function keyUpHandler(e) {
+                if(e.key === "Right" || e.key === "ArrowRight") {
+                    rightPressed = false;
+                } else if (e.key === "Left" || e.key === "ArrowLeft") {
+                    leftPressed = false;
+                }
+            }
+        </script>
+    </body>
+</html>
