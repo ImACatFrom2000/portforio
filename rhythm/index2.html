@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>tyhthm2</title>
+        <style>
+            *{
+                padding: 0;
+                margin: 0;
+            }
+            canvas {
+                background: #000000;
+                display: block;
+                margin: 0 auto;
+            }
+            p {
+                font-size: larger;
+                text-align: center;
+                margin-top: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="myCanvas" width="300" height="500"></canvas>
+        <p>BPM : <span id="bpm"></span></p>
+        <script>
+            'use strict';
+            const canvas = document.getElementById("myCanvas");
+            const ctx = canvas.getContext("2d");
+
+            const drawInterval = 10;
+
+            let barY = 0;
+            const bpm = 60;
+            const beat = 60000 / bpm;
+            //一拍かけて画面上から画面下へ(=canvas.height)移動する。
+            //bpm=120の場合、500msで500px移動
+            const dy = (canvas.height / beat) * drawInterval;
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.beginPath();
+                ctx.rect(0, barY, canvas.width, 2);
+                ctx.fillStyle = "#008800";
+                ctx.fill();
+                ctx.closePath();
+
+                barY += dy;
+                if (barY >= canvas.height) {
+                    barY = 0;
+                }
+            }
+            draw();
+            setInterval(draw, drawInterval);
+            document.getElementById('bpm').textContent = bpm;
+        </script>
+    </body>
+</html>

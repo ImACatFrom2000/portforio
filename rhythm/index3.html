@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>tyhthm3</title>
+        <style>
+            *{
+                padding: 0;
+                margin: 0;
+            }
+            canvas {
+                background: #000000;
+                display: block;
+                margin: 0 auto;
+            }
+            p {
+                font-size: larger;
+                text-align: center;
+                margin-top: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="myCanvas" width="300" height="500"></canvas>
+        <p>BPM : <span id="bpm"></span></p>
+        <script>
+            'use strict';
+            const canvas = document.getElementById("myCanvas");
+            const ctx = canvas.getContext("2d");
+
+            const drawInterval = 10;
+
+            const bpm = 120;
+            const bpms = 60000 / bpm;   //bpms = beat per milli Second
+            const dy = (canvas.height / 4 / bpms) * drawInterval;       // 1f中に落下する幅。
+            const beatGapY = canvas.height / 4;     //1拍で落下する数値（＝4拍かけてcanvas.heightを落下するんだから...）
+            
+            let beat1Y = 0;
+            let beat2Y = beatGapY*(-1);
+            let beat3Y = beatGapY*(-2);
+            let beat4Y = beatGapY*(-3);
+
+            function drawBeat1() {
+                ctx.beginPath();
+                ctx.rect(0, beat1Y, canvas.width, 2);
+                ctx.fillStyle = "#00ff00";
+                ctx.fill();
+                ctx.closePath();
+
+                beat1Y += dy;
+                if (beat1Y >= canvas.height) {
+                    beat1Y = 0;
+                }
+            }
+            function drawBeat2() {
+                ctx.beginPath();
+                ctx.rect(0, beat2Y, canvas.width, 2);
+                ctx.fillStyle = "#008800";
+                ctx.fill();
+                ctx.closePath();
+
+                beat2Y += dy;
+                if (beat2Y >= canvas.height) {
+                    beat2Y = 0;
+                }
+            }
+            function drawBeat3() {
+                ctx.beginPath();
+                ctx.rect(0, beat3Y, canvas.width, 2);
+                ctx.fillStyle = "#008800";
+                ctx.fill();
+                ctx.closePath();
+
+                beat3Y += dy;
+                if (beat3Y >= canvas.height) {
+                    beat3Y = 0;
+                }
+            }
+            function drawBeat4() {
+                ctx.beginPath();
+                ctx.rect(0, beat4Y, canvas.width, 2);
+                ctx.fillStyle = "#008800";
+                ctx.fill();
+                ctx.closePath();
+
+                beat4Y += dy;
+                if (beat4Y >= canvas.height) {
+                    beat4Y = 0;
+                }
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                drawBeat1();
+                drawBeat2();
+                drawBeat3();
+                drawBeat4();
+            }
+            draw();
+            setInterval(draw, drawInterval);
+            document.getElementById('bpm').textContent = bpm;
+        </script>
+    </body>
+</html>
