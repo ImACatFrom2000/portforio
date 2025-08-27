@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>tyhthm4</title>
+        <style>
+            *{
+                padding: 0;
+                margin: 0;
+            }
+            canvas {
+                background: #000000;
+                display: block;
+                margin: 0 auto;
+            }
+            p {
+                font-size: larger;
+                text-align: center;
+                margin-top: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="myCanvas" width="300" height="500"></canvas>
+        <p>BPM : <span id="bpm"></span></p>
+        <p>現在 <span id="mesure">0</span>小節目 <span id="beat">0</span>拍目</p>
+        <script>
+            'use strict';
+            const canvas = document.getElementById("myCanvas");
+            const ctx = canvas.getContext("2d");
+
+            const drawInterval = 10;
+
+            const bpm = 120;
+            const bpms = 60000 / bpm;   //bpms = beat per milli Second
+            const dy = (canvas.height / 4 / bpms) * drawInterval;       // 1f中に落下する幅。
+            const beatGapY = canvas.height / 4;     //1拍で落下する数値（＝4拍かけてcanvas.heightを落下するんだから...）
+
+            let beat = 1;
+            let mesure = -1;
+            
+            const beatHeight = 2;
+            let beat1Y = 0 - beatHeight/2;
+            let beat2Y = beatGapY*(-1) - beatHeight/2;
+            let beat3Y = beatGapY*(-2) - beatHeight/2;
+            let beat4Y = beatGapY*(-3) - beatHeight/2;
+
+            let icon=[
+                [{beat: 1}, {beat: 2}, {beat: 2.5}, {beat: 3}, {beat: 3.5}, {beat: 4}],
+                [{beat: 1}, {beat: 1.5}, {beat: 2}, {beat: 2.5}, {beat: 3}],
+                [{beat: 1}, {beat: 3}],
+                [{beat: 1}, {beat: 2}, {beat: 3}],
+                [{beat: 1}, {beat: 2}, {beat: 3}, {beat: 4}],
+                [{beat: 1}, {beat: 2}, {beat: 3}],
+                [{beat: 1}, {beat: 3}],
+                [{beat: 1}, {beat: 2}, {beat: 3}, {beat: 4}],
+                [{beat: 1}, {beat: 2}, {beat: 3}, {beat: 4}],
+                [{beat: 1}],
+                [{beat: 1}, {beat: 2}, {beat: 3}, {beat: 4}],
+                [{beat: 1}, {beat: 2}, {beat: 3}, {beat: 4}],
+                [{beat: 1}, {beat: 2}, {beat: 3}, {beat: 4}],
+                [{beat: 1}, {beat: 2}, {beat: 3}],
+                [{beat: 1}, {beat: 2.5}, {beat: 3}, {beat: 4}, {beat: 4.5}],
+                [{beat: 1}, {beat: 2}, {beat: 3}, {beat: 4}],
+                [{beat: 1}, {beat: 1.5}, {beat: 2}, {beat: 2.5}, {beat: 3}, {beat: 3.5}, {beat: 4}, {beat: 4.5}],
+                [{beat: 1}]
+            ]
+            let icon2=[
+                [1, 2, 2.5, 3, 3.5, 4],
+                [1, 1.5, 2, 2.5, 3]
+            ]
+            let iconInfo =[];
+            for(let j=0; j<icon2.length; j++) {
+                iconInfo[j]=[];
+                for(let k=0; k<icon2[j].length; k++) {
+                    iconInfo[j].push({beat:0, y:0});
+                    iconInfo[j][k].beat = icon2[j][k];
+                    iconInfo[j][k].y = beatGapY*(icon2[j][k])*(-1);
+                }
+                console.log(iconInfo[j])
+            }
+
+            const totalMesure = icon.length;
+
+            for(let i of icon) {
+                for(let item of i) {
+                    item.y = beatGapY*(item.beat-1)*(-1);
+                }
+            }
+
+            function drawBeat() {
+                // 1拍目
+                ctx.beginPath();
+                ctx.rect(0, beat1Y, canvas.width, beatHeight);
+                ctx.fillStyle = "#00ff00";
+                ctx.fill();
+                ctx.closePath();
+                // 2拍目
+                ctx.beginPath();
+                ctx.rect(0, beat2Y, canvas.width, beatHeight);
+                ctx.fillStyle = "#008800";
+                ctx.fill();
+                ctx.closePath();
+                // 3拍目
+                ctx.beginPath();
+                ctx.rect(0, beat3Y, canvas.width, beatHeight);
+                ctx.fillStyle = "#008800";
+                ctx.fill();
+                ctx.closePath();
+                // 4拍目
+                ctx.beginPath();
+                ctx.rect(0, beat4Y, canvas.width, beatHeight);
+                ctx.fillStyle = "#008800";
+                ctx.fill();
+                ctx.closePath();
+
+                beat1Y += dy;
+                if (beat1Y >= canvas.height) {
+                    beat1Y = 0;
+                }
+                beat2Y += dy;
+                if (beat2Y >= canvas.height) {
+                    beat2Y = 0;
+                }
+                beat3Y += dy;
+                if (beat3Y >= canvas.height) {
+                    beat3Y = 0;
+                }
+                beat4Y += dy;
+                if (beat4Y >= canvas.height) {
+                    beat4Y = 0;
+                }
+            }
+            function drawIcon() {
+                if(mesure < totalMesure+1) {
+                    for(let i=0; i<totalMesure; i++) {
+                        if(i === mesure || i+1 === mesure) {
+                            for(let item of icon[i]) {
+                                ctx.beginPath();
+                                ctx.arc(canvas.width/2, item.y, 10, 0, Math.PI * 2);
+                                ctx.fillStyle = "#00ff00";
+                                ctx.fill();
+                                ctx.closePath();
+
+                                item.y += dy;
+                            }
+                        }
+                    }
+                }
+            }
+            function countBeat() {
+                beat++;
+                if(beat >= 5) {
+                    beat = 1;
+                }
+                document.getElementById('beat').textContent = beat;
+            }
+            function countMesure() {
+                mesure++;
+                document.getElementById('mesure').textContent = mesure;
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                drawBeat();
+                drawIcon();
+            }
+
+            draw();
+            setInterval(draw, drawInterval);
+            setInterval(countBeat, bpms);
+            setInterval(countMesure, bpms*4);
+            document.getElementById('bpm').textContent = bpm;
+        </script>
+    </body>
+</html>
