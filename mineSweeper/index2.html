@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="style.css">
+        <title>マインスイーパ</title>
+    </head>
+    <body>
+        <main>
+            <div id="top">
+                <h1>マインスイーパ</h1>
+                <ol id="selectMode">
+                    <li class="easy">
+                        初級<br>
+                        8×8マス　地雷:15<br>
+                        <button>PLAY</button>
+                    </li>
+                    <li class="normal">
+                        中級<br>
+                        12×12マス　地雷:35<br>
+                        <button>PLAY</button>
+                    </li>
+                    <li class="hard">
+                        上級<br>
+                        16×16マス　地雷:50<br>
+                        <button>PLAY</button>
+                    </li>
+                    <li class="custom">
+                        カスタム<br>
+                        一辺のマス数: <input type="text" name="side"><br>
+                        地雷: <input type="text" name="mine"><br>
+                        <button>PLAY</button>
+                    </li>
+                </ol>
+                <p>カスタムモードは、(一辺のマス数の2乗-9) >= 地雷になるように設定してください。</p>
+            </div>
+            <div id="game">
+                <div id="playArea"><!--JavaScriptで記述（プレイエリア生成）--></div>
+                <div id="sideArea">
+                    <div id="buttons">
+                        <button id="flag"><img src="flag_white_sankaku1.png"></button>
+                        <button id="hint"><img src="denkyuu_on.png"></button>
+                    </div>
+                    <ol id="restHint"><!--JavaScriptで記述(残りヒント生成)--></ol>
+                    <div id="msgArea">
+                        <p>地雷の数: <span id="numMine"></span></p>
+                        <p>フラッグの数:<span id="numFlag">0</span></p>
+                        <p id="result"></p>
+                        <p id="time">クリア時間は<span id="minutes"></span>分<span id="seconds"></span>秒です。</p>
+                        <button id="returnTop">トップへ戻る</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <script src="../scripts/jquery-3.7.1.min.js"></script>
+        <script>
+            'use strick';
+
+            let side;  //一辺のマス数
+                let numMine;    //地雷の数
+
+                $('#top li button').on('click', function(){
+                    $('#top').attr('style', 'display: none');
+                    $('#game').attr('style', 'display: flex');
+                    if($(this).parent().hasClass('easy')){
+                        side = 8;
+                        numMine = 15;
+                    } else if($(this).parent().hasClass('normal')){
+                        side = 12;
+                        numMine = 35;
+                    } else if($(this).parent().hasClass('hard')){
+                        side = 16;
+                        numMine = 50;
+                    } else if($(this).parent().hasClass('custom')){
+                        event.preventDefault();
+                        side = $('input[name="side"]').val();
+                        numMine = $('input[name="mine"]').val();
+                    }
+                    game();
+                })
+
+                $('#returnTop').on('click', function(){
+                    $('#hint').removeClass('noHint');
+                    $('#restHint').children().remove();
+                    $('#result').text('');
+                    $('#time').attr('style', 'display: none');
+                    $('#returnTop').attr('style', 'display: none');
+                    $('#playArea').children().remove();
+                    $('#playArea').removeClass('finish');
+                    $('#game').attr('style', 'display: none');
+                    $('#top').attr('style', 'display: block');
+                })
+
+                function game() {
+                    let box=[];
+                    let numOpen=0;
+                    let numFlag=0;
+                    let startTime;
+                    let first=true;
+                    let restHint=5;
+
+                    $('#numMine').text(numMine);
+                    $('#numFlag').text(numFlag);
+
+                    //プレイエリア生成
+                    for(let i=0; i<side; i++) {
+                        $('#playArea').append(`<div class="row"></div>`);
+                        box[i]=[];
+                        for(let j=0; j<side; j++) {
+                            box[i][j]={row: i, column: j, mine: false, flag: false, open: false, first:false, around: 0};
+                            $(`.row:nth-child(${i+1})`).append(`<span class="box" data-row="${i}" data-column="${j}"></span>`);
+                        }
+                    }
+                    //残りヒント生成
+                    for(let i=1; i<=restHint; i++){
+                        $('#restHint').append('<li><img src="denkyuu_on.png"></li>')
+                    }
+
+                    //旗クリック
+                    $('#flag').off('click');
+                    $('#flag').on('click', function(){
+                        $(this).toggleClass('flagOn');
+                        if($('#hint').hasClass('hintOn')){
+                            $('#hint').removeClass('hintOn');
+                        }
+                    })
+                    //ヒントクリック
+                    $('#hint').off('click');
+                    $('#hint').on('click', function(){
+                        if(restHint>0){
+                            $(this).toggleClass('hintOn');
+                            if($('#flag').hasClass('flagOn')){
+                                $('#flag').removeClass('flagOn');
+                            }
+                        }
+                    })
+
+
+                    $('.box').off('click');
+                    $('.box').on('click', function(){
+                        if(!$(this).hasClass('open')) {
+                            
+                        }
+                        const row = $(this).attr('data-row');
+                        const column = $(this).attr('data-column');
+                        const clicked = box[row][column];
+                        
+                        if(first) {
+                            first=false;
+                            clicked.open=true;
+                            $(this).addClass('open');
+                            numOpen++;
+                            clicked.first=true;
+                            startTime=new Date();
+                            //mineを設置
+                            let i=0;
+                            while(i<numMine) {
+                                const mineX = Math.floor(Math.random()*side);
+                                const mineY = Math.floor(Math.random()*side);
+                                if((!box[mineX][mineY].first)&&(!box[mineX][mineY].mine)) {
+                                    box[mineX][mineY].mine=true;
+                                    i++;
+                                }
+                            }
+                            //aroundを設定
+                            for(let i=0; i<side; i++) {
+                                for(let j=0; j<side; j++) {
+                                    let around=0;
+                                    if((i-1>=0)&&(j-1>=0)) {
+                                        if(box[i-1][j-1].mine){around++};}
+                                    if(i-1>=0) {
+                                        if(box[i-1][j].mine){around++};}
+                                    if((i-1>=0)&&(j+1<side)) {
+                                        if(box[i-1][j+1].mine){around++};}
+                                    if(j-1>=0) {
+                                        if(box[i][j-1].mine){around++};}
+                                    if(box[i][j].mine){around++};
+                                    if(j+1<side) {
+                                        if(box[i][j+1].mine){around++};}
+                                    if((i+1<side)&&(j-1>=0)) {
+                                        if(box[i+1][j-1].mine){around++};}
+                                    if(i+1<side) {
+                                        if(box[i+1][j].mine){around++};}
+                                    if((i+1<side)&&(j+1<side)) {
+                                        if(box[i+1][j+1].mine){around++};}
+                                    box[i][j].around=around;
+                                    // 存在しない要素を指定はできたが、存在しない配列を指定はできない。(box[-1][-1]など)
+                                    // そのため、見た目は汚いが値が0以上side未満かの判定を加えた。
+                                }
+                            }
+                        }
+                    })
+                    
+
+                }
+        </script>
+    </body>
+</html>
