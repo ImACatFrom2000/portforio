@@ -23,7 +23,7 @@
     <body>
         <canvas id="myCanvas" width="300" height="500"></canvas>
         <p>BPM : <span id="bpm"></span></p>
-        <p>現在 <span id="mesure">0</span>小節目 <span id="beat">0</span>拍目</p>
+        <p>現在 <span id="mesure">0</span>小節目 <span id="beat">-3</span>拍目</p>
         <script>
             'use strict';
             const canvas = document.getElementById("myCanvas");
@@ -36,7 +36,7 @@
             const dy = (canvas.height / 4 / bpms) * drawInterval;       // 1f中に落下する幅。
             const beatGapY = canvas.height / 4;     //1拍で落下する数値（＝4拍かけてcanvas.heightを落下するんだから...）
 
-            let beat = 1;
+            let beat = -3;
             let mesure = 0;
             
             let beat1Y = 0;
@@ -44,18 +44,6 @@
             let beat3Y = beatGapY*(-2);
             let beat4Y = beatGapY*(-3);
 
-            // let icon = [];
-            // icon[0]= {mesure: 1, beat: 1};
-            // icon[1]= {mesure: 1, beat: 2};
-            // icon[2]= {mesure: 1, beat: 2.5};
-            // icon[3]= {mesure: 1, beat: 3};
-            // icon[4]= {mesure: 1, beat: 3.5};
-            // icon[5]= {mesure: 1, beat: 4};
-            // icon[6]= {mesure: 2, beat: 1};
-            // icon[7]= {mesure: 2, beat: 1.5};
-            // icon[8]= {mesure: 2, beat: 2};
-            // icon[9]= {mesure: 2, beat: 2.5};
-            // icon[10]= {mesure: 2, beat: 3};
             let icon=[
                 {mesure: 1, beat: 1}, {mesure: 1, beat: 2}, {mesure: 1, beat: 2.5}, {mesure: 1, beat: 3}, {mesure: 1, beat: 3.5}, {mesure: 1, beat: 4},
                 {mesure: 2, beat: 1}, {mesure: 2, beat: 1.5}, {mesure: 2, beat: 2}, {mesure: 2, beat: 2.5}, {mesure: 2, beat: 3}
@@ -121,9 +109,16 @@
                     }
                 }
             }
+            function drawLine() {
+                ctx.beginPath();
+                ctx.rect(0, canvas.height*3/4 - 2.5, canvas.width, 5);
+                ctx.fillStyle = "#FF0000";
+                ctx.fill();
+                ctx.closePath();
+            }
             function countBeat() {
                 beat++;
-                if(beat >= 5) {
+                if(beat >= 5 || beat===0) {
                     beat = 1;
                 }
                 document.getElementById('beat').textContent = beat;
@@ -137,6 +132,7 @@
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 drawBeat();
                 drawIcon();
+                drawLine();
             }
 
             draw();
