@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>tyhthm6</title>
+        <style>
+            *{
+                padding: 0;
+                margin: 0;
+            }
+            canvas {
+                background: #000000;
+                display: block;
+                margin: 0 auto;
+            }
+            p {
+                font-size: larger;
+                text-align: center;
+                margin-top: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="myCanvas" width="300" height="500"></canvas>
+        <p>BPM : <span id="bpm"></span></p>
+        <p>現在 <span id="mesure">0</span>小節目 <span id="beat">-3</span>拍目</p>
+        <script src="../scripts/jquery-3.7.1.min.js"></script>
+        <script>
+            'use strict';
+            const canvas = document.getElementById("myCanvas");
+            const ctx = canvas.getContext("2d");
+
+            const drawInterval = 10;
+
+            const bpm = 30;
+            const bpms = 60000 / bpm;   //bpms = beat per milli Second
+            const dy = (canvas.height / 4 / bpms) * drawInterval;       // 1f中に落下する幅。
+            const beatGapY = canvas.height / 4;     //1拍で落下する数値（＝4拍かけてcanvas.heightを落下するんだから...）
+
+            let beat = -3;
+            let mesure = 0;
+            
+            const beatHeight = 2;
+            let beat1Y = 0 - beatHeight/2;
+            let beat2Y = beatGapY*(-1) - beatHeight/2;
+            let beat3Y = beatGapY*(-2) - beatHeight/2;
+            let beat4Y = beatGapY*(-3) - beatHeight/2;
+
+            // let note=[
+            //     [{beat: 1}, {beat: 2}, {beat: 2.5}, {beat: 3}, {beat: 3.5}, {beat: 4}],
+            //     [{beat: 1}, {beat: 1.5}, {beat: 2}, {beat: 2.5}, {beat: 3}],
+            //     [{beat: 1}, {beat: 3}],
+            //     [{beat: 1}, {beat: 2}, {beat: 3}],
+            //     [{beat: 1}, {beat: 2}, {beat: 3}, {beat: 4}],
+            //     [{beat: 1}, {beat: 2}, {beat: 3}],
+            //     [{beat: 1}, {beat: 3}],
+            //     [{beat: 1}, {beat: 2}, {beat: 3}, {beat: 4}, {beat: 4.5}],
+            //     [{beat: 1}, {beat: 2}, {beat: 3}, {beat: 4}],
+            //     [{beat: 1}],
+            //     [{beat: 1}, {beat: 2}, {beat: 3}, {beat: 4}],
+            //     [{beat: 1}, {beat: 2}, {beat: 3}, {beat: 4}],
+            //     [{beat: 1}, {beat: 2}, {beat: 3}, {beat: 4}],
+            //     [{beat: 1}, {beat: 2}, {beat: 3}],
+            //     [{beat: 1}, {beat: 2.5}, {beat: 3}, {beat: 4}, {beat: 4.5}],
+            //     [{beat: 1}, {beat: 2}, {beat: 3}, {beat: 4}],
+            //     [{beat: 1}, {beat: 1.5}, {beat: 2}, {beat: 2.5}, {beat: 3}, {beat: 3.5}, {beat: 4}, {beat: 4.5}],
+            //     [{beat: 1}]
+            // ]
+            let notePosition=[
+                // ↓これは16分音符＊16 検証用
+                [1,1.25,1.5,1.75,2,2.25,2.5,2.75,3,3.25,3.5,3.75,4,4.25,4.5,4.75],
+                [1, 2, 2.5, 3, 3.5, 4],
+                [1, 1.5, 2, 2.5, 3],
+                [1, 3],
+                [1, 2, 3],
+                [1, 2, 3, 4],
+                [1, 2, 3],
+                [1, 3],
+                [1, 2, 3, 4, 4.5],
+                [1, 2, 3, 4],
+                [1],
+                [1, 2, 3, 4],
+                [1, 2, 3, 4],
+                [1, 2, 3, 4],
+                [1, 2, 3],
+                [1, 2.5, 3, 4, 4.5],
+                [1, 2, 3, 4],
+                [1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5],
+                [1]
+            ]
+            let note =[];
+            for(let j=0; j<notePosition.length; j++) {
+                note[j]=[];
+                for(let k=0; k<notePosition[j].length; k++) {
+                    note[j].push({beat:0, y:0, near: false});
+                    note[j][k].beat = notePosition[j][k];
+                    note[j][k].y = beatGapY*(note[j][k].beat)*(-1);
+                }
+            }
+
+            const totalMesure = note.length;
+
+            for(let i of note) {
+                for(let item of i) {
+                    item.y = beatGapY*(item.beat-1)*(-1);
+                }
+            }
+
+            function drawBeat() {
+                // 1拍目
+                ctx.beginPath();
+                ctx.rect(0, beat1Y, canvas.width, beatHeight);
+                ctx.fillStyle = "#00ff00";
+                ctx.fill();
+                ctx.closePath();
+                // 2拍目
+                ctx.beginPath();
+                ctx.rect(0, beat2Y, canvas.width, beatHeight);
+                ctx.fillStyle = "#008800";
+                ctx.fill();
+                ctx.closePath();
+                // 3拍目
+                ctx.beginPath();
+                ctx.rect(0, beat3Y, canvas.width, beatHeight);
+                ctx.fillStyle = "#008800";
+                ctx.fill();
+                ctx.closePath();
+                // 4拍目
+                ctx.beginPath();
+                ctx.rect(0, beat4Y, canvas.width, beatHeight);
+                ctx.fillStyle = "#008800";
+                ctx.fill();
+                ctx.closePath();
+
+                beat1Y += dy;
+                if (beat1Y >= canvas.height) {
+                    beat1Y = beat1Y - canvas.height;
+                }
+                beat2Y += dy;
+                if (beat2Y >= canvas.height) {
+                    beat2Y = beat2Y - canvas.height;
+                }
+                beat3Y += dy;
+                if (beat3Y >= canvas.height) {
+                    beat3Y = beat3Y - canvas.height;
+                }
+                beat4Y += dy;
+                if (beat4Y >= canvas.height) {
+                    beat4Y = beat4Y - canvas.height;
+                }
+            }
+            function drawNote() {
+                if(mesure < totalMesure+1) {
+                    for(let i=0; i<totalMesure; i++) {
+                        if(i === mesure || i+1 === mesure) {
+                            for(let item of note[i]) {
+                                ctx.beginPath();
+                                ctx.arc(canvas.width/2, item.y, 10, 0, Math.PI * 2);
+                                if(item.near) {
+                                    ctx.fillStyle="#ffff00";
+                                } else {
+                                    ctx.fillStyle = "#00ff00";
+                                }
+                                
+                                ctx.fill();
+                                ctx.closePath();
+
+                                item.y += dy;
+                                if(Math.abs(lineY-item.y)<10) {
+                                    item.near=true;
+                                } else {
+                                    item.near=false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            let lineColor = "#ff0000"
+            const lineHeight = 5;
+            const lineY = canvas.height*3/4 - lineHeight/2;
+            function drawLine() {
+                ctx.beginPath();
+                ctx.rect(0, lineY, canvas.width, lineHeight);
+                ctx.fillStyle = lineColor;
+                ctx.fill();
+                ctx.closePath();
+            }
+            function countBeat() {
+                beat++;
+                if(beat >= 5 || beat===0) {
+                    beat = 1;
+                }
+                document.getElementById('beat').textContent = beat;
+            }
+            function countMesure() {
+                mesure++;
+                document.getElementById('mesure').textContent = mesure;
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                drawBeat();
+                drawNote();
+                drawLine();
+            }
+
+            draw();
+            setInterval(draw, drawInterval);
+            setInterval(countBeat, bpms);
+            setInterval(countMesure, bpms*4);
+            document.getElementById('bpm').textContent = bpm;
+
+            document.addEventListener("keydown", keyDownHandler, false);
+            document.addEventListener("keyup", keyUpHandler, false);
+
+            let spacePressed = false;
+            let nearNote=[];
+            function keyDownHandler(e) {
+                if(e.key === " ") {
+                    spacePressed = true;
+                    lineColor = "#ffffff";
+                    // 判定
+                }
+            }
+            function keyUpHandler(e) {
+                if(e.key === " ") {
+                    spacePressed = false;
+                    lineColor = "#ff0000";
+                }
+            }
+        </script>
+    </body>
+</html>
