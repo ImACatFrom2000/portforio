@@ -1,0 +1,76 @@
+#top {
+    text-align: center;
+}
+#selectMode li{
+    list-style-type: none;
+    width: 200px;
+    margin: 30px auto;
+}
+#selectMode li:first-child {
+    background-color: greenyellow;
+}
+#selectMode li:nth-child(2) {
+    background-color: skyblue;
+}
+#selectMode li:nth-child(3) {
+    background-color: pink;
+}
+#selectMode li:nth-child(4) {
+    background-color: lavender;
+}
+#selectMode .custom input {
+    width: 2em;
+}
+
+#game {
+    display: none;
+    margin-top: 100px;
+    justify-content: center;
+    gap: 50px;
+}
+#time {
+    display: none;
+}
+#returnTop {
+    display: none;
+}
+.row {
+    display: flex;
+}
+.box {
+    background-color: #bbb;
+    border: 1px solid black;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+}
+.open {
+    background-color: gray;
+}
+.flag {
+    content: url(flag_white_sankaku1.png);
+}
+.hint {
+    border: 1px solid yellow
+}
+.flagOn, .hintOn {
+    background-color: yellow;
+}
+.noHint {
+    background-color: gray;
+}
+.mine {
+    content: url(bakudan.png);
+}
+#buttons img{
+    width: 50px;
+    height: 50px;
+}
+#restHint {
+    display: flex;
+    flex-direction: row-reverse;
+    list-style-type: none;
+}
+#restHint li img {
+    height: 40px;
+}

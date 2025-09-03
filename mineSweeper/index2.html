@@ -2,7 +2,7 @@
 <html lang="ja">
     <head>
         <meta charset="utf-8">
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="style2.css">
         <title>マインスイーパ</title>
     </head>
     <body>
@@ -57,94 +57,127 @@
             'use strick';
 
             let side;  //一辺のマス数
-                let numMine;    //地雷の数
+            let numMine;    //地雷の数
 
-                $('#top li button').on('click', function(){
-                    $('#top').attr('style', 'display: none');
-                    $('#game').attr('style', 'display: flex');
-                    if($(this).parent().hasClass('easy')){
-                        side = 8;
-                        numMine = 15;
-                    } else if($(this).parent().hasClass('normal')){
-                        side = 12;
-                        numMine = 35;
-                    } else if($(this).parent().hasClass('hard')){
-                        side = 16;
-                        numMine = 50;
-                    } else if($(this).parent().hasClass('custom')){
-                        event.preventDefault();
-                        side = $('input[name="side"]').val();
-                        numMine = $('input[name="mine"]').val();
+            $('#top li button').on('click', function(){
+                $('#top').attr('style', 'display: none');
+                $('#game').attr('style', 'display: flex');
+                if($(this).parent().hasClass('easy')){
+                    side = 8;
+                    numMine = 15;
+                } else if($(this).parent().hasClass('normal')){
+                    side = 12;
+                    numMine = 35;
+                } else if($(this).parent().hasClass('hard')){
+                    side = 16;
+                    numMine = 50;
+                } else if($(this).parent().hasClass('custom')){
+                    event.preventDefault();
+                    side = $('input[name="side"]').val();
+                    numMine = $('input[name="mine"]').val();
+                }
+                game();
+            })
+
+            $('#returnTop').on('click', function(){
+                $('#hint').removeClass('noHint');
+                $('#restHint').children().remove();
+                $('#result').text('');
+                $('#time').attr('style', 'display: none');
+                $('#returnTop').attr('style', 'display: none');
+                $('#playArea').children().remove();
+                $('#playArea').removeClass('finish');
+                $('#game').attr('style', 'display: none');
+                $('#top').attr('style', 'display: block');
+            })
+
+            function game() {
+                let box=[];
+                let numOpen=0;
+                let numFlag=0;
+                let startTime;
+                let first=true;
+                let restHint=5;
+
+                $('#numMine').text(numMine);
+                $('#numFlag').text(numFlag);
+
+                //プレイエリア生成
+                for(let i=0; i<side; i++) {
+                    $('#playArea').append(`<div class="row"></div>`);
+                    box[i]=[];
+                    for(let j=0; j<side; j++) {
+                        box[i][j]={row: i, column: j, mine: false, flag: false, open: false, first:false, around: 0};
+                        $(`.row:nth-child(${i+1})`).append(`<span class="box" data-row="${i}" data-column="${j}"></span>`);
                     }
-                    game();
+                }
+                //残りヒント生成
+                for(let i=1; i<=restHint; i++){
+                    $('#restHint').append('<li><img src="denkyuu_on.png"></li>')
+                }
+
+
+                //旗クリック
+                $('#flag').off('click');
+                $('#flag').on('click', function(){
+                    $(this).toggleClass('flagOn');
+                    if($('#hint').hasClass('hintOn')){
+                        $('#hint').removeClass('hintOn');
+                    }
                 })
-
-                $('#returnTop').on('click', function(){
-                    $('#hint').removeClass('noHint');
-                    $('#restHint').children().remove();
-                    $('#result').text('');
-                    $('#time').attr('style', 'display: none');
-                    $('#returnTop').attr('style', 'display: none');
-                    $('#playArea').children().remove();
-                    $('#playArea').removeClass('finish');
-                    $('#game').attr('style', 'display: none');
-                    $('#top').attr('style', 'display: block');
-                })
-
-                function game() {
-                    let box=[];
-                    let numOpen=0;
-                    let numFlag=0;
-                    let startTime;
-                    let first=true;
-                    let restHint=5;
-
-                    $('#numMine').text(numMine);
-                    $('#numFlag').text(numFlag);
-
-                    //プレイエリア生成
-                    for(let i=0; i<side; i++) {
-                        $('#playArea').append(`<div class="row"></div>`);
-                        box[i]=[];
-                        for(let j=0; j<side; j++) {
-                            box[i][j]={row: i, column: j, mine: false, flag: false, open: false, first:false, around: 0};
-                            $(`.row:nth-child(${i+1})`).append(`<span class="box" data-row="${i}" data-column="${j}"></span>`);
+                //ヒントクリック
+                $('#hint').off('click');
+                $('#hint').on('click', function(){
+                    if(restHint>0){
+                        $(this).toggleClass('hintOn');
+                        if($('#flag').hasClass('flagOn')){
+                            $('#flag').removeClass('flagOn');
                         }
                     }
-                    //残りヒント生成
-                    for(let i=1; i<=restHint; i++){
-                        $('#restHint').append('<li><img src="denkyuu_on.png"></li>')
-                    }
+                })
 
-                    //旗クリック
-                    $('#flag').off('click');
-                    $('#flag').on('click', function(){
-                        $(this).toggleClass('flagOn');
-                        if($('#hint').hasClass('hintOn')){
-                            $('#hint').removeClass('hintOn');
-                        }
-                    })
-                    //ヒントクリック
-                    $('#hint').off('click');
-                    $('#hint').on('click', function(){
-                        if(restHint>0){
-                            $(this).toggleClass('hintOn');
-                            if($('#flag').hasClass('flagOn')){
-                                $('#flag').removeClass('flagOn');
+
+                // boxをクリック
+                $('.box').off('click');
+                $('.box').on('click', function(){
+                    // clickedに代入
+                    const row = $(this).attr('data-row');
+                    const column = $(this).attr('data-column');
+                    const clicked = box[row][column];
+                    if(!$('#playArea').hasClass('finish') && !$(this).hasClass('open')) {
+                        // フラッグON
+                        if($('#flag').hasClass('flagOn')){
+                            $(this).toggleClass('flag')
+                            if($(this).hasClass('flag')){
+                                numFlag++;
+                            } else {
+                                numFlag--;
                             }
-                        }
-                    })
-
-
-                    $('.box').off('click');
-                    $('.box').on('click', function(){
-                        if(!$(this).hasClass('open')) {
-                            
-                        }
-                        const row = $(this).attr('data-row');
-                        const column = $(this).attr('data-column');
-                        const clicked = box[row][column];
-                        
+                            $('#numFlag').text(numFlag);
+                        } else 
+                        //ヒントON
+                        if($('#hint').hasClass('hintOn')){
+                            if(restHint>0) {
+                                $(this).addClass('open');
+                                if(clicked.mine) {
+                                    $(this).addClass('mine');
+                                } else if(clicked.around>0) {
+                                    $(this).addClass(`aroundMine${clicked.around}`);
+                                }
+                                $(`#restHint li:nth-child(${restHint}) img`).attr('src', 'denkyuu_off.png');
+                                setTimeout(() => {
+                                    $(this).removeClass('open');
+                                    $(this).removeClass('mine');
+                                    $(this).removeClass(`aroundMine${clicked.around}`);
+                                    restHint--;
+                                    $('#hint').removeClass('hintOn')
+                                    if(restHint===0){
+                                        $('#hint').addClass('noHint');
+                                    }
+                                }, 2000);
+                            }
+                        } else
+                        // 通常（初回時）
                         if(first) {
                             first=false;
                             clicked.open=true;
@@ -158,8 +191,10 @@
                                 const mineX = Math.floor(Math.random()*side);
                                 const mineY = Math.floor(Math.random()*side);
                                 if((!box[mineX][mineY].first)&&(!box[mineX][mineY].mine)) {
-                                    box[mineX][mineY].mine=true;
-                                    i++;
+                                    if(Math.abs(mineX-row)>=2||Math.abs(mineY-column)>=2) {
+                                        box[mineX][mineY].mine=true;
+                                        i++;
+                                    }
                                 }
                             }
                             //aroundを設定
@@ -184,15 +219,59 @@
                                     if((i+1<side)&&(j+1<side)) {
                                         if(box[i+1][j+1].mine){around++};}
                                     box[i][j].around=around;
-                                    // 存在しない要素を指定はできたが、存在しない配列を指定はできない。(box[-1][-1]など)
+                                    // 存在しない要素を指定はできたが、存在しない配列を指定することはできない。(box[-1][-1]など)
                                     // そのため、見た目は汚いが値が0以上side未満かの判定を加えた。
                                 }
                             }
+                        } else {
+                            //通常（2回目以降）
+                            if(!$(this).hasClass('flag')) {
+                                clicked.open=true;
+                                $(this).addClass('open');
+                                if(clicked.mine) {
+                                    //失敗
+                                    $(this).addClass('mine');
+                                    $('#playArea').addClass('finish');
+                                    $('#result').text('失敗...');
+                                    $('#returnTop').attr('style', 'display: block');
+                                } else {
+                                    //成功
+                                    numOpen++;
+                                    if(clicked.around>0) {
+                                        $(this).text(clicked.around);
+                                        let color;
+                                        switch(clicked.around) {
+                                            case 1: color='skyblue'; break;
+                                            case 2: color='lawngreen'; break;
+                                            case 3: color='red'; break;
+                                            case 4: color='yellow'; break;
+                                            case 5: color='orange'; break;
+                                            case 6: color='purple'; break;
+                                            case 7: color='brown'; break;
+                                            case 8: color='white'; break;
+                                        }
+                                        $(this).attr('style', `color: ${color}`);
+                                    }
+                                }
+                            }
+                            if(numOpen === side**2-numMine) {
+                                //ゲームクリア
+                                $('#playArea').addClass('finish');
+                                $('#result').text('クリア！');
+                                $('#returnTop').attr('style', 'display: block');
+                                //クリアタイムを表示
+                                const clearTime = new Date();
+                                const time = clearTime.getTime() - startTime.getTime();
+                                $('#time').attr('style', 'display: block');
+                                const minutes = Math.floor(time/1000/60)%60;
+                                const seconds = Math.floor(time/1000)%60;
+                                $('#minutes').text(Math.floor(time/1000/60)%60);
+                                $('#seconds').text(Math.floor(time/1000)%60);
+                            }
                         }
-                    })
-                    
-
-                }
+                    }
+                })
+            }
         </script>
     </body>
 </html>
