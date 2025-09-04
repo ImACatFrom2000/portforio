@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>JSクラス練習 ダイス</title>
+    </head>
+    <body>
+        <script>
+            'use strict';
+
+            class Dice {
+                // コンストラクター
+                constructor(surface){
+                    this.surface=surface;
+                    this.name=`${surface}面ダイス`;
+                }
+                // メソッド
+                // 出目の合計
+                rollAdd(count) {
+                    let add=0;
+                    for(let i=0; i<count; i++) {
+                        add+= Math.floor(Math.random()*this.surface)+1;
+                    }
+                    return add;
+                }
+                //　出目の一覧
+                rollList(count){
+                    let list=[];
+                    for(let i=0; i<count; i++) {
+                        list.push(Math.floor(Math.random()*this.surface)+1);
+                    }
+                    return list;
+                }
+                // 出目の平均
+                rollAverage(count){
+                    return Math.round(dice.rollAdd(count)/count);
+                }
+                // 出目の一覧、合計、結果を出力
+                rollResult(count){
+                    const list=this.rollList(count);
+                    let add=0;
+                    list.forEach((element) => add+=element);
+                    const average=Math.round(add/count);
+                    console.log(`${this.name}を${count}個振った結果は...${list}`);
+                    console.log(`合計は${add}, 平均は${average}です`);
+                }
+            }
+
+            const dice = new Dice(100);
+            const dice2 = new Dice(10);
+
+            console.log(`合計: ${dice.rollAdd(2)}`);
+            console.log(`一覧: ${dice.rollList(3)}`);
+            console.log(`平均: ${dice.rollAverage(10)}`);
+
+            dice.rollResult(5);
+            dice2.rollResult(10);
+        </script>
+    </body>
+</html>
