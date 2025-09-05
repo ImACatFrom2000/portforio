@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <style>
+            .cards {
+                list-style-type: none;
+                display: flex;
+                justify-content: center;
+            }
+            .cards li img {
+                width: auto;
+                height: 150px;
+            }
+            .slideIn img:hover {
+                transform: translateY(100px);
+                transition-property: all;
+                transition-duration: 1000ms;
+                transition-timing-function: ease-out;
+                transition-delay: 0ms;
+            }
+        </style>
+        <title>JSクラス練習 ガチャシミュレーター</title>
+    </head>
+    <body>
+        <main>
+            <ul class="cards">
+                <li class="slideIn"><img src="pu.png" alt=""></li>
+                <li><img src="ssr.png" alt=""></li>
+                <li><img src="sr.png" alt=""></li>
+                <li><img src="r.png" alt=""></li>
+                <li><img src="pu.png" alt=""></li>
+                <li><img src="ssr.png" alt=""></li>
+                <li><img src="sr.png" alt=""></li>
+                <li><img src="r.png" alt=""></li>
+                <li><img src="pu.png" alt=""></li>
+                <li><img src="ssr.png" alt=""></li>
+            </ul>
+        </main>
+        <script>
+            'use strict';
+
+            let getR=0; let getSR=0; let getSSR=0; let getUPSSR=0;
+            let result=[];
+            let totalAmount=0;
+
+            class Gacha {
+                constructor(amount, R, SR, SSR, PU) {
+                    this.amount = amount;
+                    this.R = R;
+                    this.SR = SR;
+                    this.SSR = SSR;
+                    this.PU = PU;
+                    this.SP_PU = PU*5;
+                    this.SP_SSR = SSR*5;
+                    this.SP_SR = 100-(this.SP_PU+this.SP_SSR);
+                }
+                roll() {
+                    const num = Math.floor(Math.random()*100)+1;
+                    if(num<=this.R) {
+                        getR++;
+                        result.push("R");
+                    } else if(num<=this.R+this.SR) {
+                        getSR++;
+                        result.push("SR");
+                    } else if(num<=this.R+this.SR+this.SSR) {
+                        getSSR++;
+                        result.push("SSR");
+                    } else if(num<=100) {
+                        getUPSSR++;
+                        result.push("SSR(ピックアップ)");
+                    }
+                    totalAmount+=this.amount;
+                }
+
+                rollSP() {
+                    const num = Math.floor(Math.random()*100)+1;
+                    if(num<=this.SP_SR) {
+                        getSR++;
+                        result.push("SR");
+                    } else if(num<=this.SP_SR+this.SP_SSR) {
+                        getSSR++;
+                        result.push("SSR");
+                    } else if(num<=100) {
+                        getUPSSR++;
+                        result.push("SSR(ピックアップ)");
+                    } else {
+                        console.log("エラーです");
+                    }
+                    totalAmount+=this.amount;
+                }
+
+                displayRoll1(count) {
+                    for(let i=0; i<count; i++) {
+                        ratio.roll();
+                    }
+                    console.log(result);
+                    console.log(`R: ${getR}枚, SR: ${getSR}枚, SSR: ${getSSR}枚, SSR(ピックアップ): ${getUPSSR}枚`);
+                    console.log(`1回${this.amount}円 × ${result.length}連 = ${totalAmount}円`);
+                }
+
+                displayRoll10(count) {
+                    for(let i=0; i<count; i++) {
+                        for(let j=0; j<9; j++) {
+                            ratio.roll();
+                        }
+                        ratio.rollSP();
+                    }
+                    console.log(result);
+                    console.log(`R: ${getR}枚, SR: ${getSR}枚, SSR: ${getSSR}枚, SSR(ピックアップ): ${getUPSSR}枚`);
+                    console.log(`1回${this.amount}円 × ${result.length}連 = ${totalAmount}円`);
+
+                }
+            }
+
+            const ratio = new Gacha(300, 85, 10, 4, 1);
+            ratio.displayRoll10(10);
+        </script>
+    </body>
+</html>
