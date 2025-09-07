@@ -9,13 +9,21 @@
                 justify-content: center;
             }
             .cards li img {
-                width: auto;
+                width: 100px;
                 height: 150px;
+                border: 1px solid black;
+                transform: translateY(-200px);
             }
-            .slideIn img:hover {
-                transform: translateY(100px);
+            .cards li:nth-child(2n) img {
+                background-color: pink;
+            }
+            .cards li:nth-child(2n-1) img {
+                background-color: skyblue;
+            }
+            .cards .slideIn img {
+                transform: translateY(0px);
                 transition-property: all;
-                transition-duration: 1000ms;
+                transition-duration: 750ms;
                 transition-timing-function: ease-out;
                 transition-delay: 0ms;
             }
@@ -25,18 +33,21 @@
     <body>
         <main>
             <ul class="cards">
-                <li class="slideIn"><img src="pu.png" alt=""></li>
-                <li><img src="ssr.png" alt=""></li>
-                <li><img src="sr.png" alt=""></li>
-                <li><img src="r.png" alt=""></li>
-                <li><img src="pu.png" alt=""></li>
-                <li><img src="ssr.png" alt=""></li>
-                <li><img src="sr.png" alt=""></li>
-                <li><img src="r.png" alt=""></li>
-                <li><img src="pu.png" alt=""></li>
-                <li><img src="ssr.png" alt=""></li>
+                <li><img src="" alt=""></li>
+                <li><img src="" alt=""></li>
+                <li><img src="" alt=""></li>
+                <li><img src="" alt=""></li>
+                <li><img src="" alt=""></li>
+                <li><img src="" alt=""></li>
+                <li><img src="" alt=""></li>
+                <li><img src="" alt=""></li>
+                <li><img src="" alt=""></li>
+                <li><img src="" alt=""></li>
             </ul>
+            <button id="button" style="margin-top: 100px;">ボタン</button>
+            <p id="output"></p>
         </main>
+        <script src="common/jquery-3.7.1.min.js"></script>
         <script>
             'use strict';
 
@@ -114,7 +125,22 @@
             }
 
             const ratio = new Gacha(300, 85, 10, 4, 1);
-            ratio.displayRoll10(10);
+            // ratio.displayRoll10(10);
+
+            $(document).ready(function(){
+                $('#button').on('click', function(){
+                    console.log("button clicked");
+                    let count = 0;
+                    const slide = setInterval(() => {
+                        $(`.cards li:nth-child(${count+1})`).toggleClass('slideIn');
+                        count++;
+                        if(count>=10) {
+                            clearInterval(slide);
+                            console.log("slideIn終了")
+                        }
+                    }, 500);
+                });
+            });
         </script>
     </body>
 </html>
