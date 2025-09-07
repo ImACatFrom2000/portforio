@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>JSクラス練習 トレーディンググッズシミュレーター</title>
+    </head>
+    <body>
+        <script>
+            'use strict';
+
+            let getTarget = 0; let getOthers = 0;
+            let result=[];
+            let totalAmount=0;
+
+            class Gacha {
+                constructor(amount, types) {
+                    this.amount = amount;
+                    this.types = types;
+                }
+                purchase() {
+                    const num = Math.floor(Math.random()*this.types)+1;
+                    if(num===1) {
+                        getTarget++;
+                        result.push(true);
+                    } else {
+                        getOthers++;
+                        result.push(false);
+                        
+                    }
+                    totalAmount+=this.amount;
+                }
+
+                displayPurchase(count) {
+                    for(let i=0; i<count; i++) {
+                        this.purchase();
+                    }
+                    console.log(`${count}個購入中、あなたのお目当ては...${getTarget}個でした`);
+                    console.log(`1個${this.amount}円 × ${result.length}個 = ${totalAmount}円`);
+                    // console.log(`全${this.types}種の商品が${result.length}個購入で出る確率は...約${Math.floor((1-((1-this.target/this.types)**result.length))*100)}%`);
+                    console.log(`全${this.types}種の商品を${result.length}個購入であなたのお目当てが出る確率は...約${Math.floor((1-((this.types-1)/this.types)**result.length)*100)}%`)
+                }
+
+                displayPurchaseUntillGet() {
+                    while(getTarget===0) {
+                        this.purchase();
+                    }
+                    console.log(`${result.length}個目で出ました`)
+                    console.log(`1個${this.amount}円 × ${result.length}個 = ${totalAmount}円`);
+                    console.log(`全${this.types}種の商品を${result.length}個購入であなたのお目当てが出る確率は...約${Math.floor((1-((this.types-1)/this.types)**result.length)*100)}%`)
+                }
+            }
+
+            //1回分の金額、種数
+            const goods1 = new Gacha(500, 4);
+            const goods2 = new Gacha(400, 15);
+            
+            // goods1.displayPurchase(4);
+            goods2.displayPurchaseUnti2llGet();
+        </script>
+    </body>
+</html>
