@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>トレーディンググッズ購入シミュレーター</title>
+        <style>
+            form dd input.noInput {
+                background-color: pink;
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <h1>トレーディンググッズ購入シミュレーター</h1>
+            <div id="top">
+                <form>
+                    <label><input type="radio" name="purchase" value="purchaseAny" checked>任意の個数買う</label>
+                    <label><input type="radio" name="purchase" value="purchaseUntilGet">出るまで買う</label>
+                    <dl>
+                        <dt class="amount">1点あたり</dt>
+                        <dd class="amount"><input type="number" name="amount">円</dd>
+                        <dt class="types">全</dt>
+                        <dd class="types"><input type="number" name="types">種類</dd>
+                        <dt class="count">購入点数</dt>
+                        <dd class="count"><input type="number" name="count">点</dd>
+                    </dl>
+                    <button>購入</button>
+                </form>
+                <p class="message">ここにメッセージを出力</p> 
+            </div>
+            <div id="result">
+                <p class="msg1"></p>
+                <p class="msg2"></p>
+                <p class="msg3"></p>
+            </div>
+        </main>
+        <!-- <script src="common/jquery-3.7.1.min.js"></script> -->
+         <script src="../scripts/jquery-3.7.1.min.js"></script>
+        <script>
+            'use strict';
+
+            let purchaseMode = "any";           //購入モード デフォルトはany(任意の個数買う)
+            
+            let getTarget=0; let getOthers=0;   //お目当てとそれ以外の獲得個数
+            let result=[];                      //結果（配列、T/F）
+            let totalAmount=0;                  //かかった金額
+
+            $(document).ready(function(){
+                $('#result').attr('style', 'display: none');
+
+                $('form input[name="purchase"]').on('click', function(){
+                    if($(this).attr('value') === "purchaseAny") {
+                        purchaseMode = "any";
+                        $('form .count').attr('style', 'opacity: 1.0');
+                    } else if($(this).attr('value') === "purchaseUntilGet") {
+                        purchaseMode = "untilGet";
+                        $('form .count').attr('style', 'opacity: 0');
+                    } else {
+                        console.log("エラー: purchaseModeの切り替え");
+                    }
+                })
+
+                $('form button').on('click', function(event){
+                    event.preventDefault();
+                    reset();
+
+                    const inputAmont = $('form .amount input').val();
+                    const inputTypes = $('form .types input').val();
+                    const inputCount = $('form .count input').val();
+                    
+                    const input = new Input(inputAmont, inputTypes, inputCount);
+                    if(input.checkData()) {
+                        $('#result').attr('style', 'display: block');
+                        input.changeSTR_NUM();
+                        if(purchaseMode==="any") {
+                            input.displayPurchase();
+                        } else {
+                            input.displayPurchaseUntilGet();
+                        }
+                    } else {
+                        $('#result').attr('style', 'display: none');
+                        $('.message').text("未入力の項目があります。");
+                    }
+                    
+                })
+
+                class Input {
+                    constructor(a,b,c) {
+                        this.amount=a;
+                        this.types=b;
+                        this.count=c;
+                    }
+                    checkData(){
+                        let noInput=0;
+                        for(let p in this) {
+                            if(!(purchaseMode==="untilGet" && p==="count")) {
+                                if(this[p].length===0) {
+                                    $(`form input[name="${p}"]`).addClass('noInput');
+                                    noInput++;
+                                }
+                            }
+                        }
+                        if(noInput>0) {
+                            $('.message').text("未入力の項目があります。")
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+                    changeSTR_NUM(){
+                        for(let p in this) {
+                            this[p] = Number(this[p]);
+                        }
+                    }
+                    purchase(){
+                        const num = Math.floor(Math.random()*this.types)+1;
+                        if(num===1) {
+                            getTarget++;
+                            result.push(true);
+                        } else {
+                            getOthers++;
+                            result.push(false);
+                        }
+                        totalAmount+=this.amount;
+                    }
+                    displayPurchase() {
+                        for(let i=0; i<this.count; i++) {
+                            this.purchase();
+                        }
+                        $('.message').text(result);
+                        $('#result .msg1').text(`${this.count}個購入中、あなたのお目当ては...${getTarget}個でした`);
+                        $('#result .msg2').text(`1個${this.amount}円 × ${result.length}個 = ${totalAmount}円`);
+                        $('#result .msg3').text(`全${this.types}種の商品を${result.length}個購入であなたのお目当てが出る確率は...約${Math.floor((1-((this.types-1)/this.types)**result.length)*100)}%`);
+                    }
+                    displayPurchaseUntilGet(){
+                        while(getTarget===0) {
+                            this.purchase();
+                        $('.message').text(result);
+                        $('#result .msg1').text(`${result.length}個目で出ました`);
+                        $('#result .msg2').text(`1個${this.amount}円 × ${result.length}個 = ${totalAmount}円`);
+                        $('#result .msg3').text(`全${this.types}種の商品を${result.length}個購入であなたのお目当てが出る確率は...約${Math.floor((1-((this.types-1)/this.types)**result.length)*100)}%`);
+
+                        }
+                    }
+                }
+                function reset(){
+                    getTarget=0; getOthers=0;
+                    result=[];
+                    totalAmount=0;
+                    $('.message').text("");
+                    $('#result .msg1').text("");
+                    $('#result .msg2').text("");
+                    $('#result .msg3').text("");
+                    $(`form dl input`).removeClass('noInput');
+                }
+
+            })
+        </script>
+    </body>
+</html>
