@@ -2,7 +2,8 @@
 <html lang="ja">
     <head>
         <meta charset="utf-8">
-        <link rel="stylesheet" href="../css/reset.css">
+        <!-- <link rel="stylesheet" href="../css/reset.css"> -->
+        <link rel="stylesheet" href="../common/reset.css">
         <link rel="stylesheet" href="test.css">
         <title>トレーディンググッズ購入シミュレーター</title>
     </head>
@@ -19,32 +20,26 @@
                     </p>
                     <dl>
                         <dt class="amount">1点あたり</dt>
-                        <dd class="amount"><input type="number" name="amount">円</dd>
+                        <dd class="amount"><input type="number" name="amount" value="100">円</dd>
                         <dt class="types">全</dt>
-                        <dd class="types"><input type="number" name="types">種類</dd>
+                        <dd class="types"><input type="number" name="types" value="2">種類</dd>
                         <dt class="count">購入点数</dt>
-                        <dd class="count"><input type="number" name="count">点</dd>
+                        <dd class="count"><input type="number" name="count" value="10">点</dd>
                     </dl>
                     <p><button>購入</button></p>
                 </form>
                 <div id="message">
-                    
+                    <p>ここにメッセージを表示</p>
                 </div>
             </div>
             
-            <ol class="right" id="resultFigure">
-                <li>結果</li>
-                <li>結果</li>
-                <li>結果</li>
-                <li>結果</li>
-                <li>結果</li>
-                <li>結果</li>
-                <li>結果</li>
-                <li>結果</li>
+            <ol class="right" id="result">
+                <li>ここに結果を表示</li>
+                <button>>>skip</button>
             </ol>
         </main>
-        <!-- <script src="common/jquery-3.7.1.min.js"></script> -->
-        <script src="../scripts/jquery-3.7.1.min.js"></script>
+        <script src="../common/jquery-3.7.1.min.js"></script>
+        <!-- <script src="../scripts/jquery-3.7.1.min.js"></script> -->
         <script src="test.js"></script>
     </body>
 </html>

@@ -10,12 +10,16 @@ body {
 
 /* 全体配置 */
 header {
+    height: 100px;
+}
+header h1 {
     font-size: 32px;
-    height: 50px;
+    line-height: 1.0;
+    padding: 34px 0;
 }
 main {
     display: flex;
-    height: calc(100vh - 50px);
+    height: calc(100vh - 100px);
 }
 .left, .right {
     flex-basis: 50%;
@@ -68,7 +72,29 @@ form button {
     margin: 0 auto;
 }
 
-
-#resultFigure {
+#result {
     overflow: hidden scroll;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 20px 10px;
+    position: relative;
+}
+#result .true {
+    width: 75px;
+    height: 75px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 50%;
+}
+#result .false {
+    width: 75px;
+    height: 75px;
+    background-color: gray;
+    border-radius: 50%;
+}
+#result button {
+    position: fixed;
+    bottom: 100px;
+    right: 50px;
 }
