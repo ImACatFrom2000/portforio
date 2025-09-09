@@ -24,7 +24,6 @@
         <canvas id="myCanvas" width="300" height="500"></canvas>
         <p>BPM : <span id="bpm"></span></p>
         <p>現在 <span id="mesure">0</span>小節目 <span id="beat">-3</span>拍目</p>
-        <script src="../scripts/jquery-3.7.1.min.js"></script>
         <script>
             'use strict';
             const canvas = document.getElementById("myCanvas");
@@ -32,7 +31,7 @@
 
             const drawInterval = 10;
 
-            const bpm = 30;
+            const bpm = 112;
             const bpms = 60000 / bpm;   //bpms = beat per milli Second
             const dy = (canvas.height / 4 / bpms) * drawInterval;       // 1f中に落下する幅。
             const beatGapY = canvas.height / 4;     //1拍で落下する数値（＝4拍かけてcanvas.heightを落下するんだから...）
@@ -46,53 +45,18 @@
             let beat3Y = beatGapY*(-2) - beatHeight/2;
             let beat4Y = beatGapY*(-3) - beatHeight/2;
 
-            // let note=[
-            //     [{beat: 1}, {beat: 2}, {beat: 2.5}, {beat: 3}, {beat: 3.5}, {beat: 4}],
-            //     [{beat: 1}, {beat: 1.5}, {beat: 2}, {beat: 2.5}, {beat: 3}],
-            //     [{beat: 1}, {beat: 3}],
-            //     [{beat: 1}, {beat: 2}, {beat: 3}],
-            //     [{beat: 1}, {beat: 2}, {beat: 3}, {beat: 4}],
-            //     [{beat: 1}, {beat: 2}, {beat: 3}],
-            //     [{beat: 1}, {beat: 3}],
-            //     [{beat: 1}, {beat: 2}, {beat: 3}, {beat: 4}, {beat: 4.5}],
-            //     [{beat: 1}, {beat: 2}, {beat: 3}, {beat: 4}],
-            //     [{beat: 1}],
-            //     [{beat: 1}, {beat: 2}, {beat: 3}, {beat: 4}],
-            //     [{beat: 1}, {beat: 2}, {beat: 3}, {beat: 4}],
-            //     [{beat: 1}, {beat: 2}, {beat: 3}, {beat: 4}],
-            //     [{beat: 1}, {beat: 2}, {beat: 3}],
-            //     [{beat: 1}, {beat: 2.5}, {beat: 3}, {beat: 4}, {beat: 4.5}],
-            //     [{beat: 1}, {beat: 2}, {beat: 3}, {beat: 4}],
-            //     [{beat: 1}, {beat: 1.5}, {beat: 2}, {beat: 2.5}, {beat: 3}, {beat: 3.5}, {beat: 4}, {beat: 4.5}],
-            //     [{beat: 1}]
-            // ]
             let notePosition=[
-                // ↓これは16分音符＊16 検証用
-                [1,1.25,1.5,1.75,2,2.25,2.5,2.75,3,3.25,3.5,3.75,4,4.25,4.5,4.75],
-                [1, 2, 2.5, 3, 3.5, 4],
-                [1, 1.5, 2, 2.5, 3],
-                [1, 3],
-                [1, 2, 3],
-                [1, 2, 3, 4],
-                [1, 2, 3],
-                [1, 3],
-                [1, 2, 3, 4, 4.5],
-                [1, 2, 3, 4],
-                [1],
-                [1, 2, 3, 4],
-                [1, 2, 3, 4],
-                [1, 2, 3, 4],
-                [1, 2, 3],
-                [1, 2.5, 3, 4, 4.5],
-                [1, 2, 3, 4],
-                [1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5],
-                [1]
+                [4.0, 4.5],
+                [1.0, 2.0, 2.5, 3.0, 4.0, 4.5],
+                [1.0, 2.0, 4.0, 4.5],
+                [1.0, 2.0, 2.5, 3.0, 4.0],
+                [1.0]
             ]
             let note =[];
             for(let j=0; j<notePosition.length; j++) {
                 note[j]=[];
                 for(let k=0; k<notePosition[j].length; k++) {
-                    note[j].push({beat:0, y:0, near: false});
+                    note[j].push({beat:0, y:0});
                     note[j][k].beat = notePosition[j][k];
                     note[j][k].y = beatGapY*(note[j][k].beat)*(-1);
                 }
@@ -106,6 +70,7 @@
                 }
             }
 
+            // beat(拍)の描写
             function drawBeat() {
                 // 1拍目
                 ctx.beginPath();
@@ -149,6 +114,8 @@
                     beat4Y = beat4Y - canvas.height;
                 }
             }
+
+            // ノーツの描写
             function drawNote() {
                 if(mesure < totalMesure+1) {
                     for(let i=0; i<totalMesure; i++) {
@@ -156,26 +123,18 @@
                             for(let item of note[i]) {
                                 ctx.beginPath();
                                 ctx.arc(canvas.width/2, item.y, 10, 0, Math.PI * 2);
-                                if(item.near) {
-                                    ctx.fillStyle="#ffff00";
-                                } else {
-                                    ctx.fillStyle = "#00ff00";
-                                }
-                                
+                                ctx.fillStyle="#00ff00";
                                 ctx.fill();
                                 ctx.closePath();
 
                                 item.y += dy;
-                                if(Math.abs(lineY-item.y)<10) {
-                                    item.near=true;
-                                } else {
-                                    item.near=false;
-                                }
                             }
                         }
                     }
                 }
             }
+            
+            // ラインの描写
             let lineColor = "#ff0000"
             const lineHeight = 5;
             const lineY = canvas.height*3/4 - lineHeight/2;
@@ -186,6 +145,8 @@
                 ctx.fill();
                 ctx.closePath();
             }
+
+            // 拍のカウント
             function countBeat() {
                 beat++;
                 if(beat >= 5 || beat===0) {
@@ -193,6 +154,8 @@
                 }
                 document.getElementById('beat').textContent = beat;
             }
+
+            // 小節のカウント
             function countMesure() {
                 mesure++;
                 document.getElementById('mesure').textContent = mesure;
@@ -215,12 +178,10 @@
             document.addEventListener("keyup", keyUpHandler, false);
 
             let spacePressed = false;
-            let nearNote=[];
             function keyDownHandler(e) {
                 if(e.key === " ") {
                     spacePressed = true;
                     lineColor = "#ffffff";
-                    // 判定
                 }
             }
             function keyUpHandler(e) {
