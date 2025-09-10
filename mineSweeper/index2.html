@@ -80,7 +80,7 @@
             })
 
             $('#returnTop').on('click', function(){
-                document.getElementById('hint').classList.remove('noHint');
+                document.getElementById('hint').style='background-color: auto';
                 document.querySelectorAll('#restHint li').forEach(function(item, index) {
                     item.remove();
                 });
@@ -266,4 +266,5 @@
             }
         </script>
     </body>
+
 </html>
