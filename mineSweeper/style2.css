@@ -50,17 +50,46 @@
 .flag {
     content: url(flag_white_sankaku1.png);
 }
+.mine {
+    content: url(bakudan.png);
+}
+.around1::after {
+    content: "1";
+    color: skyblue;
+}
+.around2::after {
+    content: "2";
+    color: lawngreen;
+}
+.around3::after {
+    content: "3";
+    color: red;
+}
+.around4::after {
+    content: "4";
+    color: yellow ;
+}
+.around5::after {
+    content: "5";
+    color: orange;
+}
+.around6::after {
+    content: "6";
+    color: purple;
+}
+.around7::after {
+    content: "7";
+    color: brown;
+}
+.around8::after {
+    content: "8";
+    color: white;
+}
 .hint {
     border: 1px solid yellow
 }
-.flagOn, .hintOn {
+.pushed {
     background-color: yellow;
-}
-.noHint {
-    background-color: gray;
-}
-.mine {
-    content: url(bakudan.png);
 }
 #buttons img{
     width: 50px;
